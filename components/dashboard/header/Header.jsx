@@ -70,7 +70,7 @@ const Header = () => {
             type="button"
             className="px-1 group py-1 group rounded-lg hover:bg-slate-200 transition duration-200"
           >
-            <Bell className="group-hover:scale-105 group-hover:-rotate-12  transition-transform duration-700 text-slate-900 w-4 h-4" />
+            <Bell className="group-hover:scale-105 origin-top group-hover:-rotate-12  transition-transform duration-700 text-slate-900 w-4 h-4" />
           </button>
           {/* settings */}
           <button

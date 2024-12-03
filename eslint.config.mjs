@@ -4,13 +4,15 @@ import pluginReact from "eslint-plugin-react";
 
 /** @type {import('eslint').Linter.Config[]} */
 export default [
+  pluginJs.configs.recommended,
+
+  pluginReact.configs.flat.recommended,
+
   {
     files: ["**/*.{js,mjs,cjs,jsx}"],
     languageOptions: { globals: globals.browser },
     rules: {
-      "react/prop-types": "off", // Disable PropTypes validation
+      "react/prop-types": "off", // Disable globally
     },
   },
-  pluginJs.configs.recommended,
-  pluginReact.configs.flat.recommended,
 ];
