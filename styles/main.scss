@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+.header-bg {
+  background-image: url("/HomeNav.svg");
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}

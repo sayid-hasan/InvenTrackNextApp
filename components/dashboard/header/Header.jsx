@@ -90,7 +90,7 @@ const Header = () => {
           <span>Garat</span>
           <ChevronDown className="text-xs" />
         </button>
-
+        {/* this will be dynamic */}
         {/* image */}
         <button>
           <Image

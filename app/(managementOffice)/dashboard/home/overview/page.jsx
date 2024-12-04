@@ -1,9 +1,13 @@
+"use client";
+import DashboardBanner from "@/components/dashboard/DashboardBanner/DashboardBanner";
+import SalesOverview from "@/components/dashboard/SalesOverview/SalesOverview";
 import React from "react";
 
 const Dashboard = () => {
   return (
     <div>
-      <h2>Dashboard</h2>
+      <DashboardBanner />
+      <SalesOverview />
     </div>
   );
 };
