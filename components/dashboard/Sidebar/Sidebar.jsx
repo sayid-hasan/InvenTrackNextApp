@@ -150,7 +150,7 @@ const Sidebar = () => {
       </div>
 
       {/*bottom */}
-      <div className="flex  flex-col">
+      <div className="flex  flex-col mt-5">
         {/* logo */}
         <button className="flex group justify-end items-center bg-slate-900 px-4 py-2 ">
           <ChevronLeft className="group-hover:-translate-x-14 group-hover:scale-110 transition-transform duration-300" />

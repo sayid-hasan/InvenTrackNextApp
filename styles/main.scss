@@ -7,6 +7,15 @@
   background-size: cover;
   background-repeat: no-repeat;
 }
+*::-webkit-scrollbar {
+  width: 5px;
+  height: 10px;
+  background-color: rgba(54, 54, 54, 0.5);
+}
+
+*::-webkit-scrollbar-track {
+  background-color: rgba(0, 0, 0, 0.5);
+}
 @layer base {
   :root {
     --background: 0 0% 100%;
