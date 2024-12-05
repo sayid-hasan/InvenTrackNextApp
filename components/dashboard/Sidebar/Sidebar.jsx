@@ -1,3 +1,4 @@
+"use client";
 import {
   Cable,
   ChartNoAxesCombined,
@@ -13,9 +14,67 @@ import Link from "next/link";
 import React from "react";
 import SubscriptionCard from "../SubscriptionCard/SubscriptionCard";
 
+import SidebarDropdownLinks from "../SidebarDropdownLinks/SidebarDropdownLinks";
+
 const Sidebar = () => {
+  const inventoryLinks = [
+    {
+      title: "Items",
+      link: "/dashboard/inventory/items",
+    },
+    {
+      title: "Items Groups",
+      link: "/dashboard/inventory/itemgroups",
+    },
+    {
+      title: "Inventory Adjustments",
+      link: "/dashboard/inventory/adjustments",
+    },
+  ];
+  const sellLinks = [
+    {
+      title: "Customers",
+      link: "",
+    },
+    {
+      title: "Sells orders",
+      link: "",
+    },
+    {
+      title: "Packages",
+      link: "",
+    },
+    {
+      title: "Shipments",
+      link: "",
+    },
+    {
+      title: "Invoices",
+      link: "",
+    },
+    {
+      title: "Sales receipts",
+      link: "",
+    },
+    {
+      title: "Payments received",
+      link: "",
+    },
+    {
+      title: "Sales returns",
+      link: "",
+    },
+    {
+      title: "Credit Notes",
+      link: "",
+    },
+    {
+      title: "Packages",
+      link: "",
+    },
+  ];
   return (
-    <div className="w-60 min-h-screen flex flex-col justify-between bg-slate-800 text-slate-50 fixed ">
+    <div className="w-60 max-h-screen flex flex-col justify-between bg-slate-800 text-slate-50 fixed overflow-y-auto overflow-hidden ">
       {/* top */}
       <div className="flex flex-col">
         {/* logo */}
@@ -39,16 +98,23 @@ const Sidebar = () => {
             <Home className="w-4 h-4" />
             <span>Home</span>
           </Link>
-          {/* Inventory Button */}
-          <button className="flex transition-transform duration-300 hover:translate-x-2 hover:translate-y-[2px] grow flex-1 items-center justify-start gap-2 text-lg font-semibold p-2 rounded-md">
-            <Scroll className="w-4 h-4" />
-            <span>Inventory</span>
-          </button>
-          {/* Sales button */}
-          <button className="flex transition-transform duration-300 hover:translate-x-2 hover:translate-y-[2px] grow flex-1 items-center justify-start gap-2 text-lg font-semibold p-2 rounded-md">
-            <ShoppingCart className="w-4 h-4" />
-            <span>Sales</span>
-          </button>
+          {/* Inventory accordian */}
+          <button></button>
+
+          {/* collapsible inventory SidebarDropdownLinks from component */}
+          <SidebarDropdownLinks
+            name={"Inventory"}
+            linkItems={inventoryLinks}
+            icon={<Scroll className="w-4 h-4" />}
+          />
+
+          {/* collapsible sellLinks SidebarDropdownLinks from component */}
+          <SidebarDropdownLinks
+            name={"Sales"}
+            linkItems={sellLinks}
+            icon={<ShoppingCart className="w-4 h-4" />}
+          />
+
           {/* Purchases Button */}
           <button className="flex transition-transform duration-300 hover:translate-x-2 hover:translate-y-[2px] grow flex-1 items-center justify-start gap-2 text-lg font-semibold p-2 rounded-md">
             <ShoppingBag className="w-4 h-4" />

@@ -59,7 +59,7 @@ const SalesOverview = () => {
                   {/* qty */}
                   <div className="flex flex-col justify-center items-center">
                     {/* this will be dynamic */}
-                    <h2 className={`text-${item?.color} text-4xl`}>
+                    <h2 className={` text-${item?.color} text-4xl`}>
                       {item?.qty}
                     </h2>
                     <span className="text-slate-300">{item?.unit}</span>

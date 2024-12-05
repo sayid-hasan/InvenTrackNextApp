@@ -10,7 +10,7 @@ const layout = ({ children }) => {
       {/* sidebar */}
       <Sidebar></Sidebar>
       {/* main */}
-      <main className="w-full ml-60 bg-slate-100 min-h-screen">
+      <main className="w-full ml-60 bg-slate-100 min-h-screen h-full">
         <Header></Header>
         {children}
       </main>
