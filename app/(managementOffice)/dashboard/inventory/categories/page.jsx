@@ -1,7 +1,7 @@
 import React from "react";
 
-const ItemGroupsPage = () => {
+const Categories = () => {
   return <div>ItemGroups</div>;
 };
 
-export default ItemGroupsPage;
+export default Categories;

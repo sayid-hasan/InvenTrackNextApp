@@ -3,6 +3,7 @@ import React from "react";
 
 import { Box, Boxes, Component, ScrollText } from "lucide-react";
 import OptionCard from "@/components/dashboard/OptionCard/OptionCard";
+import FixedHeader from "@/components/dashboard/FixedHeader/FixedHeader";
 
 const ItemsPage = () => {
   const itemCards = [
@@ -18,7 +19,7 @@ const ItemsPage = () => {
     {
       title: "Items",
       icon: Box,
-      link: "#",
+      link: "/dashboard/inventory/items/new",
       color: "blue-400",
       linkText: "New Item",
       description: `Effortlessly craft standalone products or services that are ready to impress and sell!`,
@@ -45,11 +46,14 @@ const ItemsPage = () => {
   ];
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 m-4">
-      {/* carda */}
-      {itemCards.map((item, index) => {
-        return <OptionCard optionData={item} key={index} />;
-      })}
+    <div>
+      <FixedHeader newLink="/dashboard/inventory/items/new" />
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 m-4">
+        {/* carda */}
+        {itemCards.map((item, index) => {
+          return <OptionCard optionData={item} key={index} />;
+        })}
+      </div>
     </div>
   );
 };

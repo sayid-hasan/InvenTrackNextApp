@@ -5,7 +5,7 @@ import React from "react";
 const Inventory = () => {
   return (
     <div>
-      <FixedHeader />
+      <FixedHeader newLink="/dashboard/inventory/items/new" />
     </div>
   );
 };
