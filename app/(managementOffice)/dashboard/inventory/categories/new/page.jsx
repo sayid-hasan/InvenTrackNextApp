@@ -23,6 +23,7 @@ const NewCategory = () => {
     // console.log(data);
 
     const baseUrl = "http://localhost:3000";
+    // sending data to api endpoint
     try {
       const categoryData = {
         categoryTitle,
@@ -57,7 +58,7 @@ const NewCategory = () => {
   return (
     <div>
       {/* header */}
-      <FormHeader link={"/dashboard/inventory/items"} title={"New Item"} />
+      <FormHeader link={"/dashboard/inventory"} title={"New Item"} />
 
       {/* form */}
       <form
