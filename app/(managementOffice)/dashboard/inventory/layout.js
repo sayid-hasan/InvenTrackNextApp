@@ -7,7 +7,7 @@ const inventoryLayout = ({ children }) => {
   return (
     <div className="  ">
       {/* sidebar */}
-      <FixedHeader />
+      <FixedHeader newLink="/dashboard/inventory/items/new" />
       {/* main */}
 
       <div>{children}</div>
