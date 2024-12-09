@@ -21,7 +21,9 @@ export default function TextareaInput({
       </label>
       <div className="mt-2">
         <textarea
-          {...register(`${name}`, { required: isRequired })}
+          {...register(`${name}`, {
+            required: isRequired,
+          })}
           name={name}
           id={name}
           rows={3}

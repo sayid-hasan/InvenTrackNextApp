@@ -81,7 +81,7 @@ const NewWarehouse = () => {
   return (
     <div>
       {/* header */}
-      <FormHeader link={"/dashboard/inventory"} title={"New Brand"} />
+      <FormHeader link={"/dashboard/inventory"} title={"New Warehouse"} />
 
       {/* form */}
       <form

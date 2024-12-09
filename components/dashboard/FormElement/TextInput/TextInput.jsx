@@ -6,6 +6,8 @@ export default function TextInput({
   name,
   register,
   errors,
+  pattern,
+  invalidMessage,
   isRequired = true,
   type = "text",
   className = "sm:col-span-2",
@@ -20,7 +22,13 @@ export default function TextInput({
       </label>
       <div className="mt-2">
         <input
-          {...register(`${name}`, { required: isRequired })}
+          {...register(`${name}`, {
+            required: isRequired,
+            pattern: pattern && {
+              value: pattern,
+              message: invalidMessage || "Invalid input",
+            },
+          })}
           type={type}
           name={name}
           id={name}
@@ -29,7 +37,9 @@ export default function TextInput({
           placeholder={`Type the ${label.toLowerCase()}`}
         />
         {errors[`${name}`] && (
-          <span className="text-sm text-red-600 ">{label} is required</span>
+          <span className="text-sm text-red-600 ">
+            {errors[name].message || label} is required
+          </span>
         )}
       </div>
     </div>
