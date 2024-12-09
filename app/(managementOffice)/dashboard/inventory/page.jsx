@@ -1,7 +1,7 @@
 "use client";
 import FixedHeader from "@/components/dashboard/FixedHeader/fixedHeader";
 import OptionCard from "@/components/dashboard/OptionCard/OptionCard";
-import { Box, Boxes, Component, ScrollText } from "lucide-react";
+import { Box, Boxes, Landmark, Ruler, Warehouse } from "lucide-react";
 
 import React from "react";
 
@@ -9,50 +9,51 @@ const Inventory = () => {
   const itemCards = [
     {
       title: "Items",
-      icon: Box,
+      icon: Box, // Represents a single item or product
       link: "/dashboard/inventory/items/new",
       color: "blue-400",
       linkText: "New Item",
-      description: `Effortlessly craft standalone products or services that are ready to impress and sell!`,
+      description: `Effortlessly create individual products or services to expand your inventory.`,
       isEnable: true,
     },
     {
       title: "Categories",
-      icon: Boxes,
+      icon: Boxes, // Represents grouping or categories of items
       link: "/dashboard/inventory/categories/new",
       color: "blue-400",
       linkText: "New Category",
-      description: `Combine multiple items into irresistible bundles for enhanced customer satisfaction!`,
+      description: `Organize items into structured categories for better inventory management.`,
       isEnable: true,
     },
     {
       title: "Brands",
-      icon: Component,
+      icon: Landmark, // More relevant to represent brands
       link: "/dashboard/inventory/brands/new",
       color: "blue-400",
-      linkText: "New Brands",
-      description: `Easily adjust pricing for specific clients or transactions to boost sales and engagement!`,
+      linkText: "New Brand",
+      description: `Manage and showcase product brands to build trust and identity.`,
       isEnable: true,
     },
     {
       title: "Warehouse",
-      icon: ScrollText,
+      icon: Warehouse, // Represents a warehouse structure
       link: "/dashboard/inventory/warehouse/new",
       color: "blue-400",
       linkText: "New Warehouse",
-      description: `Easily adjust pricing for specific clients or transactions to boost sales and engagement!`,
+      description: `Track and manage physical inventory across different storage locations.`,
       isEnable: true,
     },
     {
       title: "Units",
-      icon: ScrollText,
+      icon: Ruler, // Represents measurement units
       link: "/dashboard/inventory/units/new",
       color: "blue-400",
-      linkText: "New Units",
-      description: `Easily adjust pricing for specific clients or transactions to boost sales and engagement!`,
+      linkText: "New Unit",
+      description: `Define and manage units of measurement for your products.`,
       isEnable: true,
     },
   ];
+
   return (
     <div>
       <FixedHeader newLink="/dashboard/inventory/items/new" />

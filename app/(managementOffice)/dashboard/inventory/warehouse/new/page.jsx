@@ -1,5 +1,6 @@
 "use client";
 
+import SelectOptions from "@/components/dashboard/FormElement/SelectOptions/SelectOptions";
 import SubmitButton from "@/components/dashboard/FormElement/SubmitBtn/SubmitBtn";
 import TextareaInput from "@/components/dashboard/FormElement/TextArea/TextArea";
 
@@ -11,6 +12,19 @@ import { useForm } from "react-hook-form";
 
 const NewWarehouse = () => {
   const [isLoading, setIsLoading] = useState(false);
+  // warehouse type options
+  const warehouseTypeOptions = [
+    { value: "main", label: "Main" },
+    { value: "branch", label: "Branch" },
+    { value: "distribution", label: "Distribution" },
+    { value: "coldStorage", label: "Cold Storage" },
+    { value: "bonded", label: "Bonded" },
+    { value: "fulfillmentCenter", label: "Fulfillment Center" },
+    { value: "retail", label: "Retail" },
+    { value: "industrial", label: "Industrial" },
+    { value: "rawMaterials", label: "Raw Materials" },
+    { value: "eCommerce", label: "E-commerce" },
+  ];
 
   const {
     register,
@@ -83,6 +97,14 @@ const NewWarehouse = () => {
           register={register}
           type="text"
           errors={errors}
+          className="w-full"
+        />
+        {/* wareHouse Type main or branch */}
+        <SelectOptions
+          label="Warehouse Type"
+          name={"warehouseType"}
+          options={warehouseTypeOptions}
+          register={register}
           className="w-full"
         />
         {/* warehouse Location */}
