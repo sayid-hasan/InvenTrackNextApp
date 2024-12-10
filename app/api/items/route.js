@@ -19,24 +19,28 @@ export async function POST(request) {
       unitTitle,
       warehouseLocation,
       weightGm,
+      imageUrl,
+      taxPercentage,
     } = await request.json();
     const itemData = {
-      ItemDimension,
+      ItemDimension: ItemDimension || null,
       brandTitle,
       buyingPrice,
       categoryTitle,
-      itemBarcode,
+      itemBarcode: itemBarcode || null,
       itemDescription,
       itemName,
-      itemNotes,
+      itemNotes: itemNotes || null,
       itemSku,
       qty,
-      reOrderPoint,
+      reOrderPoint: reOrderPoint || null,
       sellingPrice,
       supplierName,
       unitTitle,
       warehouseLocation,
       weightGm,
+      imageUrl,
+      taxPercentage,
     };
     console.log(itemData);
     return NextResponse.json(itemData);

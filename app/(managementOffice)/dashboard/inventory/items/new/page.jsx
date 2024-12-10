@@ -1,5 +1,6 @@
 "use client";
 
+import ImageInput from "@/components/dashboard/FormElement/ImageInput/ImageInput";
 import SelectOptions from "@/components/dashboard/FormElement/SelectOptions/SelectOptions";
 import SubmitButton from "@/components/dashboard/FormElement/SubmitBtn/SubmitBtn";
 import TextareaInput from "@/components/dashboard/FormElement/TextArea/TextArea";
@@ -11,6 +12,7 @@ import { useForm } from "react-hook-form";
 
 const NewItem = () => {
   const [isLoading, setIsLoading] = useState(false);
+  const [imageUrl, setImageUrl] = useState("");
   // warehouse type options
   // const warehouseTypeOptions = [
   //   { value: "main", label: "Main" },
@@ -111,6 +113,7 @@ const NewItem = () => {
       unitTitle,
       warehouseLocation,
       weightGm,
+      taxPercentage,
     } = data;
 
     const baseUrl = "http://localhost:3000";
@@ -133,6 +136,8 @@ const NewItem = () => {
         unitTitle,
         warehouseLocation,
         weightGm,
+        imageUrl,
+        taxPercentage,
       };
       const response = await axios.post(`${baseUrl}/api/items`, wareHouseData);
 
@@ -142,6 +147,7 @@ const NewItem = () => {
       if (response.status === 200) {
         console.log("Category created successfully!");
         setIsLoading(false);
+        setImageUrl("");
         reset();
       } else {
         throw new Error("Unexpected response status");
@@ -156,7 +162,7 @@ const NewItem = () => {
 
     // Cleanup when the component unmounts
     return () => subscription.unsubscribe();
-  }, [watch]);
+  }, [watch, imageUrl]);
   return (
     <div>
       {/* header */}
@@ -319,6 +325,26 @@ const NewItem = () => {
           name={"itemNotes"}
           isRequired={false}
           register={register}
+          errors={errors}
+        />
+
+        {/* image upload component */}
+        <ImageInput
+          label="Item Image"
+          imageUrl={imageUrl}
+          setImageUrl={setImageUrl}
+          className="w-full"
+        />
+
+        {/* tax rate */}
+        <TextInput
+          label={"Tax Percentage"}
+          name={"taxPercentage"}
+          register={register}
+          type="text"
+          pattern={/^[0-9]*\.?[0-9]+$/}
+          invalidMessage={"only Numeric values are allowed"}
+          className="w-full leading-[1]"
           errors={errors}
         />
 
