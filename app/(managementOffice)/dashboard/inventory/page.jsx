@@ -1,7 +1,14 @@
 "use client";
 import FixedHeader from "@/components/dashboard/FixedHeader/fixedHeader";
 import OptionCard from "@/components/dashboard/OptionCard/OptionCard";
-import { Box, Boxes, Landmark, Ruler, Warehouse } from "lucide-react";
+import {
+  Box,
+  Boxes,
+  Landmark,
+  NotebookPen,
+  Ruler,
+  Warehouse,
+} from "lucide-react";
 
 import React from "react";
 
@@ -52,12 +59,21 @@ const Inventory = () => {
       description: `Define and manage units of measurement for your products.`,
       isEnable: true,
     },
+    {
+      title: "Adjustments",
+      icon: NotebookPen, // Represents measurement units
+      link: "/dashboard/inventory/adjustments/new",
+      color: "blue-400",
+      linkText: "New Unit",
+      description: `Change the details of any stored item in the inventory`,
+      isEnable: true,
+    },
   ];
 
   return (
     <div>
       <FixedHeader newLink="/dashboard/inventory/items/new" />
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 m-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 m-4">
         {/* carda */}
         {itemCards.map((item, index) => {
           return <OptionCard optionData={item} key={index} />;

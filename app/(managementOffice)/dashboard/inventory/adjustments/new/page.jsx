@@ -1,5 +1,4 @@
 "use client";
-
 import ImageInput from "@/components/dashboard/FormElement/ImageInput/ImageInput";
 import SelectOptions from "@/components/dashboard/FormElement/SelectOptions/SelectOptions";
 import SubmitButton from "@/components/dashboard/FormElement/SubmitBtn/SubmitBtn";
@@ -9,50 +8,11 @@ import FormHeader from "@/components/dashboard/FormHeader/FormHeader";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const NewItem = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
-  // warehouse type options
-  // const warehouseTypeOptions = [
-  //   { value: "main", label: "Main" },
-  //   { value: "branch", label: "Branch" },
-  //   { value: "distribution", label: "Distribution" },
-  //   { value: "coldStorage", label: "Cold Storage" },
-  //   { value: "bonded", label: "Bonded" },
-  //   { value: "fulfillmentCenter", label: "Fulfillment Center" },
-  //   { value: "retail", label: "Retail" },
-  //   { value: "industrial", label: "Industrial" },
-  //   { value: "rawMaterials", label: "Raw Materials" },
-  //   { value: "eCommerce", label: "E-commerce" },
-  // ];
-  // catergory options for select
 
-  const categoryTypeOptions = [
-    { value: "electronics", label: "Electronics" },
-    { value: "clothing", label: "Clothing" },
-    { value: "groceries", label: "Groceries" },
-    { value: "homeAppliances", label: "Home Appliances" },
-    { value: "furniture", label: "Furniture" },
-    { value: "beautyPersonalCare", label: "Beauty & Personal Care" },
-    { value: "toysGames", label: "Toys & Games" },
-    { value: "booksStationery", label: "Books & Stationery" },
-    { value: "sportsOutdoors", label: "Sports & Outdoors" },
-    { value: "automotive", label: "Automotive" },
-    { value: "healthWellness", label: "Health & Wellness" },
-    { value: "jewelryAccessories", label: "Jewelry & Accessories" },
-    { value: "petsSupplies", label: "Pets & Supplies" },
-    { value: "gasEquipment", label: "Gas Equipment" },
-    { value: "cookerParts", label: "Cooker Parts" },
-    { value: "electricItems", label: "Electric Items" },
-    { value: "kitchenEquipment", label: "Kitchen Equipment" },
-    { value: "burner", label: "Burner" },
-    { value: "brassFitting", label: "Brass Fitting" },
-    { value: "msFitting", label: "MS Fitting" },
-    { value: "csFitting", label: "CS Fitting" },
-  ];
   // unit options for select
   const unitTypeOptions = [
     { value: "kg", label: "Kilogram" },
@@ -97,55 +57,49 @@ const NewItem = () => {
     formState: { errors },
   } = useForm();
   const onSubmit = async (data) => {
-    if (!imageUrl) {
-      toast.error("please provide a image of product ");
-      return;
-    }
     setIsLoading(true);
     const {
-      ItemDimension,
-      brandTitle,
-      buyingPrice,
-      categoryTitle,
-      itemBarcode,
-      itemDescription,
-      itemName,
-      itemNotes,
-      itemSku,
-      qty,
-      reOrderPoint,
-      sellingPrice,
-      supplierName,
-      unitTitle,
-      warehouseLocation,
-      weightGm,
-      taxPercentage,
+      updatedSku,
+      updatedBarcode,
+      updatedQty,
+      updatedUnit,
+      updatedBrandTitle,
+      updatedBuyingPrice,
+      UpdatedSellingPrice,
+      updatedSupplierName,
+      updatedReOrderPoint,
+      updatedWarehouseLocation,
+      updatedWeightGm,
+      updatedItemDimension,
+      updatedItemDescription,
+      updatedItemNotes,
+      updatedTaxPercentage,
     } = data;
 
     const baseUrl = "http://localhost:3000";
     // sending data to api endpoint
     try {
       const wareHouseData = {
-        ItemDimension,
-        brandTitle,
-        buyingPrice,
-        categoryTitle,
-        itemBarcode,
-        itemDescription,
-        itemName,
-        itemNotes,
-        itemSku,
-        qty,
-        reOrderPoint,
-        sellingPrice,
-        supplierName,
-        unitTitle,
-        warehouseLocation,
-        weightGm,
-        imageUrl,
-        taxPercentage,
+        updatedSku,
+        updatedBarcode,
+        updatedQty,
+        updatedUnit,
+        updatedBrandTitle,
+        updatedBuyingPrice,
+        UpdatedSellingPrice,
+        updatedSupplierName,
+        updatedReOrderPoint,
+        updatedWarehouseLocation,
+        updatedWeightGm,
+        updatedItemDimension,
+        updatedItemDescription,
+        updatedItemNotes,
+        updatedTaxPercentage,
       };
-      const response = await axios.post(`${baseUrl}/api/items`, wareHouseData);
+      const response = await axios.post(
+        `${baseUrl}/api/adjustments`,
+        wareHouseData
+      );
 
       console.log("Server Response: ", response.data);
 
@@ -172,7 +126,7 @@ const NewItem = () => {
   return (
     <div>
       {/* header */}
-      <FormHeader link={"/dashboard/inventory"} title={"New Item"} />
+      <FormHeader link={"/dashboard/inventory"} title={"Update stored Item"} />
 
       {/* form */}
       <form
@@ -183,84 +137,74 @@ const NewItem = () => {
       >
         {/* item Name */}
 
-        <TextInput
-          label={"Item Name"}
-          name={"itemName"}
-          register={register}
-          type="text"
-          className="w-full"
-          errors={errors}
-        />
-
-        {/* category Type main or branch */}
-        <SelectOptions
-          label="Select Items Category"
-          name={"categoryTitle"}
-          options={categoryTypeOptions}
-          register={register}
-          className="w-full"
-        />
         {/* SKU */}
         <TextInput
-          label={"SKU"} //(Stock Keeping Unit): A unique identifier for the item to help with tracking.
-          name={"itemSku"}
+          label={"SKU of item that you want to update"} //it'll be a select option that will come from database i will do it latter
+          name={"updatedSku"}
           register={register}
+          isRequired={false}
           type="text"
           errors={errors}
           className="w-full"
         />
+
         {/* Barcode */}
         <TextInput
-          label={"Item Barcode"} //Barcode optional.. will be auto generated
-          name={"itemBarcode"}
+          label={"Update Item Barcode"} //Barcode optional.. will be auto generated
+          name={"updatedBarcode"}
           register={register}
-          type="text"
           isRequired={false}
+          type="text"
           errors={errors}
           className="w-full"
         />
         {/* Quantity */}
         <TextInput
-          label={"Item Quantity"} //
-          name={"qty"}
+          label={" Update Item Stock"} //
+          name={"updatedQty"}
           register={register}
+          isRequired={false}
           type="number"
           errors={errors}
           className="w-full"
         />
         {/* Unit */}
         <SelectOptions
-          label="Select Unit"
-          name={"unitTitle"}
+          label="Update Unit"
+          name={"updatedUnit"}
           options={unitTypeOptions}
           register={register}
+          isRequired={false}
           className="w-full"
         />
         {/* Brands */}
         <SelectOptions
-          label="Select Brand"
-          name={"brandTitle"}
+          label="Update Brand"
+          name={"updatedBrandTitle"}
           options={brandTypeOptions}
           register={register}
+          isRequired={false}
           className="w-full"
         />
 
         {/* buying Price per unit */}
         <TextInput
-          label={"Buying Price"}
-          name={"buyingPrice"}
+          label={"Update Buying Price"}
+          name={"updatedBuyingPrice"}
           pattern={/^[0-9]*\.?[0-9]+$/}
           invalidMessage={"only Numeric values are allowed"}
           register={register}
+          isRequired={false}
           type="text"
           className="w-full"
           errors={errors}
         />
         {/* selling price */}
         <TextInput
-          label={"Selling Price"}
-          name={"sellingPrice"}
+          label={"Update Selling Price"}
+          name={"UpdatedSellingPrice"}
           register={register}
+          isRequired={false}
           type="text"
           pattern={/^[0-9]*\.?[0-9]+$/}
           invalidMessage={"only Numeric values are allowed"}
@@ -270,9 +214,10 @@ const NewItem = () => {
 
         {/* Supplier Name */}
         <TextInput
-          label={"Supplier Name"}
-          name={"supplierName"}
+          label={"Update Supplier Name"}
+          name={"updatedSupplierName"}
           register={register}
+          isRequired={false}
           type="text"
           className="w-full"
           errors={errors}
@@ -280,37 +225,39 @@ const NewItem = () => {
 
         {/* Reorder Point */}
         <TextInput
-          label={"Re-Order Point"}
-          name={"reOrderPoint"}
+          label={"Update Re-Order Point"}
+          name={"updatedReOrderPoint"}
           register={register}
-          type="number"
           isRequired={false}
+          type="number"
           className="w-full"
           errors={errors}
         />
 
         {/* warehouse location */}
         <TextInput
-          label={"Warehouse Location"}
-          name={"warehouseLocation"}
+          label={"Update Warehouse Location"}
+          name={"updatedWarehouseLocation"}
           register={register}
+          isRequired={false}
           type="text"
           className="w-full"
           errors={errors}
         />
         {/* weight */}
         <TextInput
-          label={"Weight(gm)"}
-          name={"weightGm"}
+          label={"Update Weight(gm)"}
+          name={"updatedWeightGm"}
           register={register}
+          isRequired={false}
           type="text"
           className="w-full"
           errors={errors}
         />
         {/* Dimensions */}
         <TextInput
-          label={"Dimensions"}
-          name={"ItemDimension"}
+          label={"Update Dimensions"}
+          name={"updatedItemDimension"}
           isRequired={false}
           register={register}
           type="text"
@@ -320,15 +267,16 @@ const NewItem = () => {
 
         {/* description */}
         <TextareaInput
-          label={"Item Description"}
-          name={"itemDescription"}
+          label={"Update Item Description"}
+          name={"updatedItemDescription"}
           register={register}
+          isRequired={false}
           errors={errors}
         />
         {/* extra Notes */}
         <TextareaInput
-          label={"Notes"}
-          name={"itemNotes"}
+          label={"Update item Notes"}
+          name={"updatedItemNotes"}
           isRequired={false}
           register={register}
           errors={errors}
@@ -336,7 +284,7 @@ const NewItem = () => {
 
         {/* image upload component */}
         <ImageInput
-          label="Item Image"
+          label="Update Item Image"
           imageUrl={imageUrl}
           setImageUrl={setImageUrl}
           className="w-full"
@@ -345,8 +293,9 @@ const NewItem = () => {
         {/* tax rate */}
         <TextInput
           label={"Tax Percentage"}
-          name={"taxPercentage"}
+          name={"updatedTaxPercentage"}
           register={register}
+          isRequired={false}
           type="text"
           pattern={/^[0-9]*\.?[0-9]+$/}
           invalidMessage={"only Numeric values are allowed"}
@@ -355,7 +304,7 @@ const NewItem = () => {
         />
 
         {/* submit button */}
-        <SubmitButton title={"Item"} isLoading={isLoading} />
+        <SubmitButton title={"Update Item"} isLoading={isLoading} />
       </form>
       {/* footer */}
     </div>

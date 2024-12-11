@@ -15,6 +15,7 @@ import React from "react";
 import SubscriptionCard from "../SubscriptionCard/SubscriptionCard";
 
 import SidebarDropdownLinks from "../SidebarDropdownLinks/SidebarDropdownLinks";
+import { ToastContainer } from "react-toastify";
 
 const Sidebar = () => {
   const inventoryLinks = [
@@ -40,7 +41,7 @@ const Sidebar = () => {
     },
     {
       title: "Inventory Adjustments",
-      link: "/dashboard/inventory/adjustments",
+      link: "/dashboard/inventory/adjustments/new",
     },
   ];
   const sellLinks = [
@@ -170,6 +171,8 @@ const Sidebar = () => {
       </div>
 
       {/* footer icon */}
+      {/* toastContainer of toastify */}
+      <ToastContainer />
     </div>
   );
 };
