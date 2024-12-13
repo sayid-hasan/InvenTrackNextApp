@@ -6,7 +6,7 @@ import {
   Boxes,
   Landmark,
   NotebookPen,
-  Ruler,
+  Scale,
   Warehouse,
 } from "lucide-react";
 
@@ -52,7 +52,7 @@ const Inventory = () => {
     },
     {
       title: "Units",
-      icon: Ruler, // Represents measurement units
+      icon: Scale, // Represents measurement units
       link: "/dashboard/inventory/units/new",
       color: "blue-400",
       linkText: "New Unit",
@@ -64,7 +64,7 @@ const Inventory = () => {
       icon: NotebookPen, // Represents measurement units
       link: "/dashboard/inventory/adjustments/new",
       color: "blue-400",
-      linkText: "New Unit",
+      linkText: "Customize Item Details",
       description: `Change the details of any stored item in the inventory`,
       isEnable: true,
     },

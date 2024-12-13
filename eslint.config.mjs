@@ -10,7 +10,12 @@ export default [
 
   {
     files: ["**/*.{js,mjs,cjs,jsx}"],
-    languageOptions: { globals: globals.browser },
+    languageOptions: {
+      globals: {
+        ...globals.browser, // For client-side globals like `window`, `document`
+        ...globals.node, // For server-side globals like `process`, `__dirname`
+      },
+    },
     rules: {
       "react/prop-types": "off", // Disable globally
     },

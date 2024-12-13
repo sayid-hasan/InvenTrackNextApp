@@ -16,7 +16,7 @@ const OptionCard = ({ optionData }) => {
       {/* title */}
       <h2 className="font-bold text-xl ">{title}</h2>
       {/* image */}
-      <Icon strokeWidth={1} className="w-36 h-36" />
+      <Icon strokeWidth={1} className="w-28 h-28" />
       {/* short description */}
       <p className="text-slate-500 font-medium text-sm max-w-full mx-auto text-center">
         {description}

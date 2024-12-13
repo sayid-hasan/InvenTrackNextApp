@@ -41,7 +41,7 @@ const Sidebar = () => {
     },
     {
       title: "Inventory Adjustments",
-      link: "/dashboard/inventory/adjustments/new",
+      link: "/dashboard/inventory",
     },
   ];
   const sellLinks = [
