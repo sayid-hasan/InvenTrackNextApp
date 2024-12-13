@@ -1,9 +1,15 @@
+import db from "@/lib/db";
 import { NextResponse } from "next/server";
 
 export async function POST(request) {
   try {
     const { categoryTitle, categoryDescription } = await request.json();
-    const category = { categoryTitle, categoryDescription };
+    const category = await db.category.create({
+      data: {
+        categoryTitle,
+        categoryDescription,
+      },
+    });
     console.log(category);
     return NextResponse.json(category);
   } catch (error) {

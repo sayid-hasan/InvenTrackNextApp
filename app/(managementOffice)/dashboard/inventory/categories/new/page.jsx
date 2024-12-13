@@ -6,6 +6,8 @@ import FormHeader from "@/components/dashboard/FormHeader/FormHeader";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import "react-toastify/dist/ReactToastify.css";
+import { toast, ToastContainer } from "react-toastify";
 
 const NewCategory = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -34,15 +36,16 @@ const NewCategory = () => {
         categoryData
       );
 
-      console.log("Server Response: ", response.data);
+      // console.log("Server Response: ", response.data);
 
       // Handle successful response
       if (response.status === 200) {
-        console.log("Category created successfully!");
+        // console.log("Category created successfully!");
         setIsLoading(false);
-        reset();
+        toast.success("Category created successfully!");
+        // reset();
       } else {
-        throw new Error("Unexpected response status");
+        toast.error("Category creation failed");
       }
     } catch (error) {
       console.log(error);
@@ -88,6 +91,7 @@ const NewCategory = () => {
         <SubmitButton title={"category"} isLoading={isLoading} />
       </form>
       {/* footer */}
+      <ToastContainer />
     </div>
   );
 };

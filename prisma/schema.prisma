@@ -14,8 +14,7 @@ datasource db {
 }
 
 model Category {
-  id  String  @id @default(auto()) @map("_id") @db.ObjectId
-  title String
-  description String?
+   id  String  @id @default(auto()) @map("_id") @db.ObjectId
+  categoryTitle     String
+  categoryDescription String
 }
-
