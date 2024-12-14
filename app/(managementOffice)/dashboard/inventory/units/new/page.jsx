@@ -7,6 +7,8 @@ import FormHeader from "@/components/dashboard/FormHeader/FormHeader";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 const NewUnit = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -36,10 +38,13 @@ const NewUnit = () => {
 
       // Handle successful response
       if (response.status === 200) {
-        console.log("Category created successfully!");
+        // console.log("Unit created successfully!");
+        toast.success("Unit created successfully!");
         setIsLoading(false);
+
         reset();
       } else {
+        toast.error("Error creating Unit!");
         throw new Error("Unexpected response status");
       }
     } catch (error) {
