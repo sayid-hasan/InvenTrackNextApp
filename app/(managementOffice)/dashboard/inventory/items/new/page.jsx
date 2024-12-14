@@ -9,8 +9,8 @@ import FormHeader from "@/components/dashboard/FormHeader/FormHeader";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 const NewItem = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -49,6 +49,7 @@ const NewItem = () => {
     { value: "electricItems", label: "Electric Items" },
     { value: "kitchenEquipment", label: "Kitchen Equipment" },
     { value: "burner", label: "Burner" },
+    { value: "regulator", label: "Regulator" },
     { value: "brassFitting", label: "Brass Fitting" },
     { value: "msFitting", label: "MS Fitting" },
     { value: "csFitting", label: "CS Fitting" },
@@ -296,6 +297,7 @@ const NewItem = () => {
           register={register}
           type="text"
           className="w-full"
+          isRequired={false}
           errors={errors}
         />
         {/* weight */}
@@ -323,6 +325,7 @@ const NewItem = () => {
           label={"Item Description"}
           name={"itemDescription"}
           register={register}
+          isRequired={false}
           errors={errors}
         />
         {/* extra Notes */}

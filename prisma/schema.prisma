@@ -18,3 +18,103 @@ model Category {
   categoryTitle     String
   categoryDescription String
 }
+
+model Item {
+  id                   String      @id @default(auto()) @map("_id") @db.ObjectId
+  itemName             String
+  itemDescription      String?
+  categoryTitle        String   
+  itemSku              String    @unique 
+  itemBarcode          String? 
+  qty                  Int 
+  unitTitle            String     
+  brandTitle           String      
+  sellingPrice         Float 
+  buyingPrice          Float 
+  supplierName         String 
+  reOrderPoint         Int? 
+  warehouseLocation    String? 
+  imageUrl             String[]  
+  weightGm             Float? 
+  ItemDimension        String? 
+  taxPercentage        Float 
+  itemNotes            String? 
+}
+model Adjustment{
+   id                         String      @id @default(auto()) @map("_id") @db.ObjectId
+  updatedItemName             String?
+  itemDescription             String?
+  categoryTitle               String?   
+  referenceSku                String?   @unique 
+  updatedBarcode              String? 
+  updatedQty                  Int? 
+  updatedUnit                 String?     
+  updatedBrandTitle           String?      
+  UpdatedSellingPrice         Float? 
+  updatedBuyingPrice          Float? 
+  updatedSupplierName         String? 
+  updatedReOrderPoint         Int? 
+  updatedWarehouseLocation    String? 
+  adjustmentReason            String
+  adjustmentDate              DateTime
+  updatedWeightGm             Float? 
+  updatedItemDimension        String? 
+  updatedTaxPercentage        Float? 
+  updatedItemNotes            String? 
+}
+model Unit {
+  id                String    @id @default(auto()) @map("_id") @db.ObjectId
+  unitTitle         String
+  unitAbbreviation  String
+}
+
+model Brand {
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  brandTitle     String
+}
+
+
+
+model Warehouse {
+  id           String      @id @default(auto()) @map("_id") @db.ObjectId
+  warehouseTitle             String
+  warehouseLocation          String
+  warehouseType              String
+  warehouseDescription       String
+}
+//completed updated upper
+// model Supplier {
+//   id             String      @id @default(auto()) @map("_id") @db.ObjectId
+//   name            String
+//   phone           String?
+//   email           String?
+//   address         String?
+//   contactPerson   String?
+//   supplierCode    String    @unique
+//   paymentTerms    String?
+//   taxID           String?
+//   notes           String?
+// }
+
+// model Post {
+//   id      String   @id @default(auto()) @map("_id") @db.ObjectId
+//   title    String
+//   author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+//   authorId Int
+// }
+
+// model User {
+//   id   String   @id @default(auto()) @map("_id") @db.ObjectId
+//   posts Post[]
+// }
+// model YourModel {
+//   id      String     @id @default(auto()) @map("_id") @db.ObjectId
+//   name     String
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+// }
+// const items = await prisma.item.findMany({
+//   orderBy: {
+//     createdAt: 'desc', // 'asc' for ascending, 'desc' for descending
+//   },
+// });

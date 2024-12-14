@@ -59,7 +59,8 @@ const NewItem = () => {
   const onSubmit = async (data) => {
     setIsLoading(true);
     const {
-      updatedSku,
+      adjustmentReason,
+      referenceSku,
       updatedBarcode,
       updatedQty,
       updatedUnit,
@@ -74,13 +75,15 @@ const NewItem = () => {
       updatedItemDescription,
       updatedItemNotes,
       updatedTaxPercentage,
+      adjustmentDate,
     } = data;
 
     const baseUrl = "http://localhost:3000";
     // sending data to api endpoint
     try {
       const wareHouseData = {
-        updatedSku,
+        adjustmentReason,
+        referenceSku,
         updatedBarcode,
         updatedQty,
         updatedUnit,
@@ -95,6 +98,7 @@ const NewItem = () => {
         updatedItemDescription,
         updatedItemNotes,
         updatedTaxPercentage,
+        adjustmentDate,
       };
       const response = await axios.post(
         `${baseUrl}/api/adjustments`,
@@ -137,10 +141,10 @@ const NewItem = () => {
       >
         {/* item Name */}
 
-        {/* SKU */}
+        {/*referenceSku SKU */}
         <TextInput
           label={"SKU of item that you want to update"} //it'll be a select option that will come from database i will do it latter
-          name={"updatedSku"}
+          name={"referenceSku"}
           register={register}
           isRequired={false}
           type="text"
@@ -251,6 +255,25 @@ const NewItem = () => {
           register={register}
           isRequired={false}
           type="text"
+          className="w-full"
+          errors={errors}
+        />
+
+        {/* adjusment reason */}
+        <TextInput
+          label={"Reason of adjustment"}
+          name={"adjustmentReason"}
+          register={register}
+          type="text"
+          className="w-full"
+          errors={errors}
+        />
+        {/* Date */}
+        <TextInput
+          label={"Date"}
+          name={"adjustmentDate"}
+          register={register}
+          type="date"
           className="w-full"
           errors={errors}
         />

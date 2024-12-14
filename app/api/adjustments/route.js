@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 export async function POST(request) {
   try {
     const {
-      updatedSku,
+      referenceSku,
       updatedBarcode,
       updatedQty,
       updatedUnit,
@@ -18,23 +18,27 @@ export async function POST(request) {
       updatedItemDescription,
       updatedItemNotes,
       updatedTaxPercentage,
+      adjustmentReason,
+      adjustmentDate,
     } = await request.json();
     const itemData = {
-      updatedSku: updatedSku || null,
+      referenceSku: referenceSku || null,
       updatedBarcode: updatedBarcode || null,
-      updatedQty: updatedQty || null,
+      updatedQty: parseInt(updatedQty) || null,
       updatedUnit: updatedUnit || null,
       updatedBrandTitle: updatedBrandTitle || null,
-      updatedBuyingPrice: updatedBuyingPrice || null,
-      UpdatedSellingPrice: UpdatedSellingPrice || null,
+      updatedBuyingPrice: parseFloat(updatedBuyingPrice) || null,
+      UpdatedSellingPrice: parseFloat(UpdatedSellingPrice) || null,
       updatedSupplierName: updatedSupplierName || null,
       updatedReOrderPoint: updatedReOrderPoint || null,
       updatedWarehouseLocation: updatedWarehouseLocation || null,
-      updatedWeightGm: updatedWeightGm || null,
+      updatedWeightGm: parseFloat(updatedWeightGm) || null,
       updatedItemDimension: updatedItemDimension || null,
       updatedItemDescription: updatedItemDescription || null,
       updatedItemNotes: updatedItemNotes || null,
-      updatedTaxPercentage: updatedTaxPercentage || null,
+      updatedTaxPercentage: parseFloat(updatedTaxPercentage) || null,
+      adjustmentReason,
+      adjustmentDate,
     };
     console.log(itemData);
     return NextResponse.json(itemData);

@@ -7,7 +7,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import "react-toastify/dist/ReactToastify.css";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
 const NewCategory = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -43,7 +43,7 @@ const NewCategory = () => {
         // console.log("Category created successfully!");
         setIsLoading(false);
         toast.success("Category created successfully!");
-        // reset();
+        reset();
       } else {
         toast.error("Category creation failed");
       }
@@ -91,7 +91,6 @@ const NewCategory = () => {
         <SubmitButton title={"category"} isLoading={isLoading} />
       </form>
       {/* footer */}
-      <ToastContainer />
     </div>
   );
 };

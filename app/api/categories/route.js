@@ -10,7 +10,7 @@ export async function POST(request) {
         categoryDescription,
       },
     });
-    console.log(category);
+    // console.log(category);
     return NextResponse.json(category);
   } catch (error) {
     console.log(error.message);

@@ -7,6 +7,8 @@ import FormHeader from "@/components/dashboard/FormHeader/FormHeader";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 const NewBrand = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -37,8 +39,10 @@ const NewBrand = () => {
       if (response.status === 200) {
         console.log("Category created successfully!");
         setIsLoading(false);
+        toast.success("Brand created successfully");
         reset();
       } else {
+        toast.error("Brand creation failed!");
         throw new Error("Unexpected response status");
       }
     } catch (error) {
