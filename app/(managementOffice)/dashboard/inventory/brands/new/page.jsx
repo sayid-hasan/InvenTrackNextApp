@@ -42,11 +42,11 @@ const NewBrand = () => {
         toast.success("Brand created successfully");
         reset();
       } else {
-        toast.error("Brand creation failed!");
         throw new Error("Unexpected response status");
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      toast.error(`Brand creation failed! ${error.message}`);
       setIsLoading(false);
     }
   };

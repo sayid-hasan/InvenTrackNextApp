@@ -44,10 +44,10 @@ const NewUnit = () => {
 
         reset();
       } else {
-        toast.error("Error creating Unit!");
         throw new Error("Unexpected response status");
       }
     } catch (error) {
+      toast.error(`Error creating Unit! ${error.message}`);
       console.log(error);
       setIsLoading(false);
     }

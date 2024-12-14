@@ -48,7 +48,8 @@ const NewCategory = () => {
         toast.error("Category creation failed");
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      toast.error(`Category creation failed! ${error.message}`);
       setIsLoading(false);
     }
   };

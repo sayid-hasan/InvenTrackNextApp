@@ -79,8 +79,8 @@ model Warehouse {
   id           String      @id @default(auto()) @map("_id") @db.ObjectId
   warehouseTitle             String
   warehouseLocation          String
-  warehouseType              String
-  warehouseDescription       String
+  warehouseType              String?
+  warehouseDescription       String?
 }
 //completed updated upper
 // model Supplier {

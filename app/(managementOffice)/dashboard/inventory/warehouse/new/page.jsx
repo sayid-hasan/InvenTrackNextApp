@@ -9,6 +9,8 @@ import FormHeader from "@/components/dashboard/FormHeader/FormHeader";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
 
 const NewWarehouse = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -61,14 +63,16 @@ const NewWarehouse = () => {
 
       // Handle successful response
       if (response.status === 200) {
-        console.log("Category created successfully!");
+        // console.log("WareHouse created successfully!");
+        toast.success("Warehouse created successfully!");
         setIsLoading(false);
         reset();
       } else {
         throw new Error("Unexpected response status");
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      toast.error(`Warehouse creation failed ${error.message}`);
       setIsLoading(false);
     }
   };
@@ -104,6 +108,7 @@ const NewWarehouse = () => {
           label="Warehouse Type"
           name={"warehouseType"}
           options={warehouseTypeOptions}
+          isRequired={false}
           register={register}
           className="w-full"
         />
@@ -121,6 +126,7 @@ const NewWarehouse = () => {
         <TextareaInput
           label={"Warehouse Description"}
           name={"warehouseDescription"}
+          isRequired={false}
           register={register}
           errors={errors}
         />
