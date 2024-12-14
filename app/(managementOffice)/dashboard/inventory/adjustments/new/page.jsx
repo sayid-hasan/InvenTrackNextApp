@@ -98,7 +98,7 @@ const NewItem = () => {
         updatedItemDescription,
         updatedItemNotes,
         updatedTaxPercentage,
-        adjustmentDate,
+        adjustmentDate: new Date(adjustmentDate),
       };
       const response = await axios.post(
         `${baseUrl}/api/adjustments`,

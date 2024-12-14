@@ -27,7 +27,7 @@ model Item {
   itemSku              String    @unique 
   itemBarcode          String? 
   qty                  Int 
-  unitTitle            String     
+  unitAbbreviation     String     
   brandTitle           String      
   sellingPrice         Float 
   buyingPrice          Float 

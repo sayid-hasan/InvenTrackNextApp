@@ -117,7 +117,7 @@ const NewItem = () => {
       reOrderPoint,
       sellingPrice,
       supplierName,
-      unitTitle,
+      unitAbbreviation,
       warehouseLocation,
       weightGm,
       taxPercentage,
@@ -140,7 +140,7 @@ const NewItem = () => {
         reOrderPoint,
         sellingPrice,
         supplierName,
-        unitTitle,
+        unitAbbreviation,
         warehouseLocation,
         weightGm,
         imageUrl,
@@ -152,7 +152,7 @@ const NewItem = () => {
 
       // Handle successful response
       if (response.status === 200) {
-        console.log("Category created successfully!");
+        toast.success("Item stored successfully!");
         setIsLoading(false);
         setImageUrl("");
         reset();
@@ -160,7 +160,7 @@ const NewItem = () => {
         throw new Error("Unexpected response status");
       }
     } catch (error) {
-      console.log(error);
+      toast.error(`Operation failed ${error.message}`);
       setIsLoading(false);
     }
   };
@@ -232,7 +232,7 @@ const NewItem = () => {
         {/* Unit */}
         <SelectOptions
           label="Select Unit"
-          name={"unitTitle"}
+          name={"unitAbbreviation"}
           options={unitTypeOptions}
           register={register}
           className="w-full"

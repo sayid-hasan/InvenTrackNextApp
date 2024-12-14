@@ -96,7 +96,7 @@ const NewWarehouse = () => {
       >
         {/* warehouse title */}
         <TextInput
-          label={"Wrehouse Title"}
+          label={"Warehouse Title"}
           name={"warehouseTitle"}
           register={register}
           type="text"
