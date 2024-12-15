@@ -14,7 +14,7 @@ export async function POST(request) {
     return NextResponse.json(
       {
         error,
-        message: "Failed to create category",
+        message: "Failed to create unit",
       },
       {
         status: 500,

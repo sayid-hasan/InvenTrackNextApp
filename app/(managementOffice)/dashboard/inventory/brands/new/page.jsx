@@ -4,11 +4,11 @@ import SubmitButton from "@/components/dashboard/FormElement/SubmitBtn/SubmitBtn
 
 import TextInput from "@/components/dashboard/FormElement/TextInput/TextInput";
 import FormHeader from "@/components/dashboard/FormHeader/FormHeader";
-import axios from "axios";
+
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import "react-toastify/dist/ReactToastify.css";
-import { toast } from "react-toastify";
+
+import { makePostRequest } from "@/lib/makeApiPostRequest";
 
 const NewBrand = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -22,33 +22,8 @@ const NewBrand = () => {
   } = useForm();
   const onSubmit = async (data) => {
     setIsLoading(true);
-    const { brandTitle } = data;
-    // console.log(data);
-
-    const baseUrl = "http://localhost:3000";
-    // sending data to api endpoint
-    try {
-      const brandData = {
-        brandTitle,
-      };
-      const response = await axios.post(`${baseUrl}/api/brands`, brandData);
-
-      console.log("Server Response: ", response.data);
-
-      // Handle successful response
-      if (response.status === 200) {
-        console.log("Category created successfully!");
-        setIsLoading(false);
-        toast.success("Brand created successfully");
-        reset();
-      } else {
-        throw new Error("Unexpected response status");
-      }
-    } catch (error) {
-      // console.log(error);
-      toast.error(`Brand creation failed! ${error.message}`);
-      setIsLoading(false);
-    }
+    // sending data to api endpoint with makeapiPostRequest
+    makePostRequest(setIsLoading, "api/brands", data, `Brand`, reset);
   };
   useEffect(() => {
     const subscription = watch(() => {});

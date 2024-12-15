@@ -6,11 +6,11 @@ import TextareaInput from "@/components/dashboard/FormElement/TextArea/TextArea"
 
 import TextInput from "@/components/dashboard/FormElement/TextInput/TextInput";
 import FormHeader from "@/components/dashboard/FormHeader/FormHeader";
-import axios from "axios";
+
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import "react-toastify/dist/ReactToastify.css";
-import { toast } from "react-toastify";
+
+import { makePostRequest } from "@/lib/makeApiPostRequest";
 
 const NewWarehouse = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -37,44 +37,9 @@ const NewWarehouse = () => {
   } = useForm();
   const onSubmit = async (data) => {
     setIsLoading(true);
-    const {
-      warehouseTitle,
-      warehouseLocation,
-      warehouseType,
-      warehouseDescription,
-    } = data;
-    // console.log(data);
 
-    const baseUrl = "http://localhost:3000";
-    // sending data to api endpoint
-    try {
-      const wareHouseData = {
-        warehouseTitle,
-        warehouseLocation,
-        warehouseType,
-        warehouseDescription,
-      };
-      const response = await axios.post(
-        `${baseUrl}/api/warehouse`,
-        wareHouseData
-      );
-
-      console.log("Server Response: ", response.data);
-
-      // Handle successful response
-      if (response.status === 200) {
-        // console.log("WareHouse created successfully!");
-        toast.success("Warehouse created successfully!");
-        setIsLoading(false);
-        reset();
-      } else {
-        throw new Error("Unexpected response status");
-      }
-    } catch (error) {
-      // console.log(error);
-      toast.error(`Warehouse creation failed ${error.message}`);
-      setIsLoading(false);
-    }
+    // sending data to api endpoint with makeapiPostRequest
+    makePostRequest(setIsLoading, "api/warehouse", data, `Warehouse`, reset);
   };
   useEffect(() => {
     const subscription = watch(() => {});

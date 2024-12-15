@@ -4,11 +4,12 @@ import SubmitButton from "@/components/dashboard/FormElement/SubmitBtn/SubmitBtn
 
 import TextInput from "@/components/dashboard/FormElement/TextInput/TextInput";
 import FormHeader from "@/components/dashboard/FormHeader/FormHeader";
-import axios from "axios";
+
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import "react-toastify/dist/ReactToastify.css";
-import { toast } from "react-toastify";
+
+import { makePostRequest } from "@/lib/makeApiPostRequest";
 
 const NewUnit = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -22,35 +23,11 @@ const NewUnit = () => {
   } = useForm();
   const onSubmit = async (data) => {
     setIsLoading(true);
-    const { unitTitle, unitAbbreviation } = data;
+
     // console.log(data);
 
-    const baseUrl = "http://localhost:3000";
-    // sending data to api endpoint
-    try {
-      const unitData = {
-        unitTitle,
-        unitAbbreviation,
-      };
-      const response = await axios.post(`${baseUrl}/api/units`, unitData);
-
-      console.log("Server Response: ", response.data);
-
-      // Handle successful response
-      if (response.status === 200) {
-        // console.log("Unit created successfully!");
-        toast.success("Unit created successfully!");
-        setIsLoading(false);
-
-        reset();
-      } else {
-        throw new Error("Unexpected response status");
-      }
-    } catch (error) {
-      toast.error(`Error creating Unit! ${error.message}`);
-      console.log(error);
-      setIsLoading(false);
-    }
+    // sending data to api endpoint with makeapiPostRequest
+    makePostRequest(setIsLoading, "api/units", data, `Units`, reset);
   };
   useEffect(() => {
     const subscription = watch(() => {});

@@ -4,6 +4,7 @@ import OptionCard from "@/components/dashboard/OptionCard/OptionCard";
 import {
   Box,
   Boxes,
+  Factory,
   Landmark,
   NotebookPen,
   Scale,
@@ -66,6 +67,15 @@ const Inventory = () => {
       color: "blue-400",
       linkText: "Customize Item Details",
       description: `Change the details of any stored item in the inventory`,
+      isEnable: true,
+    },
+    {
+      title: "Supplier",
+      icon: Factory, // Represents measurement units
+      link: "/dashboard/inventory/supplier/new",
+      color: "blue-400",
+      linkText: "Add a new supplier",
+      description: `Supplier details like name, phone , contact information`,
       isEnable: true,
     },
   ];

@@ -43,6 +43,10 @@ const Sidebar = () => {
       title: "Inventory Adjustments",
       link: "/dashboard/inventory",
     },
+    {
+      title: "Supplier",
+      link: "/dashboard/inventory",
+    },
   ];
   const sellLinks = [
     {

@@ -13,78 +13,172 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+//relational database
 model Category {
-   id  String  @id @default(auto()) @map("_id") @db.ObjectId
-  categoryTitle     String
-  categoryDescription String
+  id                   String   @id @default(auto()) @map("_id") @db.ObjectId
+  categoryTitle        String   @unique
+  categoryDescription  String
+  items                Item[]   @relation("CategoryItems") // One category can have many items
 }
 
 model Item {
   id                   String      @id @default(auto()) @map("_id") @db.ObjectId
   itemName             String
   itemDescription      String?
-  categoryTitle        String   
-  itemSku              String    @unique 
+  category             Category    @relation("CategoryItems",fields: [categoryId], references: [id]) // Item belongs to a category
+  categoryId          String    @db.ObjectId 
+  itemSku              String      @unique
   itemBarcode          String? 
-  qty                  Int 
-  unitAbbreviation     String     
-  brandTitle           String      
-  sellingPrice         Float 
-  buyingPrice          Float 
-  supplierName         String 
-  reOrderPoint         Int? 
-  warehouseLocation    String? 
-  imageUrl             String[]  
-  weightGm             Float? 
-  ItemDimension        String? 
-  taxPercentage        Float 
-  itemNotes            String? 
+  qty                  Int
+  unit                 Unit        @relation("UnitItems",fields: [unitId], references: [id]) // Item uses a unit
+  unitId               String   @db.ObjectId 
+  brand                Brand       @relation("BrandItems",fields: [brandId], references: [id]) // Item uses a brand
+  brandId             String    @db.ObjectId 
+  sellingPrice         Float
+  buyingPrice          Float
+  supplier            Supplier    @relation("SupplierItems",fields: [supplierId], references: [id]) // Item is supplied by a supplier
+  supplierId          String    @db.ObjectId 
+  reOrderPoint         Int?
+  warehouseLocation    String?
+  imageUrl             String[]
+  weightGm             Float?
+  itemDimension        String?
+  taxPercentage        Float
+  itemNotes            String?
+  adjustments          Adjustment[] @relation("ItemAdjustments") // Item has many adjustments
+  warehouse            Warehouse   @relation("WarehouseItems",fields: [warehouseId], references: [id]) // Item is stored in a warehouse
+  warehouseId         String   @db.ObjectId 
 }
-model Adjustment{
-   id                         String      @id @default(auto()) @map("_id") @db.ObjectId
-  updatedItemName             String?
-  itemDescription             String?
-  categoryTitle               String?   
-  referenceSku                String?   @unique 
-  updatedBarcode              String? 
-  updatedQty                  Int? 
-  updatedUnit                 String?     
-  updatedBrandTitle           String?      
-  UpdatedSellingPrice         Float? 
-  updatedBuyingPrice          Float? 
-  updatedSupplierName         String? 
-  updatedReOrderPoint         Int? 
-  updatedWarehouseLocation    String? 
-  adjustmentReason            String
-  adjustmentDate              DateTime
-  updatedWeightGm             Float? 
-  updatedItemDimension        String? 
-  updatedTaxPercentage        Float? 
-  updatedItemNotes            String? 
+
+model Supplier {
+  id              String      @id @default(auto()) @map("_id") @db.ObjectId
+  supplierName    String
+  phone           String?
+  email           String?
+  address         String?
+  contactPerson   String?
+  supplierCode    String    @unique
+  paymentTerms    String?
+  taxID           String?
+  notes           String?
+  items           Item[]     @relation("SupplierItems") // One supplier can supply many items
 }
+
 model Unit {
-  id                String    @id @default(auto()) @map("_id") @db.ObjectId
+  id                String   @id @default(auto()) @map("_id") @db.ObjectId
   unitTitle         String
   unitAbbreviation  String
+  items             Item[]   @relation("UnitItems") // One unit can be used in many items
 }
 
 model Brand {
-  id             String    @id @default(auto()) @map("_id") @db.ObjectId
-  brandTitle     String
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  brandTitle     String   @unique
+  items          Item[]   @relation("BrandItems") // One brand can be used in many items
 }
-
-
 
 model Warehouse {
-  id           String      @id @default(auto()) @map("_id") @db.ObjectId
-  warehouseTitle             String
-  warehouseLocation          String
-  warehouseType              String?
-  warehouseDescription       String?
+  id               String   @id @default(auto()) @map("_id") @db.ObjectId
+  warehouseTitle   String
+  warehouseLocation String
+warehouseType       String?
+warehouseDescription String?
+  
+  items            Item[]   @relation("WarehouseItems") // One warehouse can store many items
 }
-//completed updated upper
+
+model Adjustment {
+  id                         String      @id @default(auto()) @map("_id") @db.ObjectId
+  updatedItemName            String?
+  itemDescription            String?
+  categoryTitle              String?   
+  referenceSku               String    @unique
+  updatedBarcode             String? 
+  updatedQty                 Int? 
+  updatedUnit                String?     
+  updatedBrandTitle          String?      
+  updatedSellingPrice        Float? 
+  updatedBuyingPrice         Float? 
+  updatedSupplierName        String? 
+  updatedReOrderPoint        Int? 
+  updatedWarehouseLocation   String? 
+  adjustmentReason           String
+  adjustmentDate             DateTime
+  updatedWeightGm            Float? 
+  updatedItemDimension       String? 
+  updatedTaxPercentage       Float? 
+  updatedItemNotes           String?
+  item                      Item?   @relation("ItemAdjustments", fields: [itemId], references: [id])
+  itemId                    String? @db.ObjectId
+}
+
+
+
+
+
+
+// model Category {
+//    id  String  @id @default(auto()) @map("_id") @db.ObjectId
+//   categoryTitle     String
+//   categoryDescription String
+// }
+
+// model Item {
+//   id                   String      @id @default(auto()) @map("_id") @db.ObjectId
+//   itemName             String
+//   itemDescription      String?
+//   categoryTitle        String   
+//   itemSku              String    @unique 
+//   itemBarcode          String? 
+//   qty                  Int 
+//   unitAbbreviation     String     
+//   brandTitle           String      
+//   sellingPrice         Float 
+//   buyingPrice          Float 
+//   supplierName         String 
+//   reOrderPoint         Int? 
+//   warehouseLocation    String? 
+//   imageUrl             String[]  
+//   weightGm             Float? 
+//   ItemDimension        String? 
+//   taxPercentage        Float 
+//   itemNotes            String? 
+// }
+// model Adjustment{
+//    id                         String      @id @default(auto()) @map("_id") @db.ObjectId
+//   updatedItemName             String?
+//   itemDescription             String?
+//   categoryTitle               String?   
+//   referenceSku                String?   @unique 
+//   updatedBarcode              String? 
+//   updatedQty                  Int? 
+//   updatedUnit                 String?     
+//   updatedBrandTitle           String?      
+//   UpdatedSellingPrice         Float? 
+//   updatedBuyingPrice          Float? 
+//   updatedSupplierName         String? 
+//   updatedReOrderPoint         Int? 
+//   updatedWarehouseLocation    String? 
+//   adjustmentReason            String
+//   adjustmentDate              DateTime
+//   updatedWeightGm             Float? 
+//   updatedItemDimension        String? 
+//   updatedTaxPercentage        Float? 
+//   updatedItemNotes            String? 
+// }
+// model Unit {
+//   id                String    @id @default(auto()) @map("_id") @db.ObjectId
+//   unitTitle         String
+//   unitAbbreviation  String
+// }
+
+// model Brand {
+//   id             String    @id @default(auto()) @map("_id") @db.ObjectId
+//   brandTitle     String
+// }
+
 // model Supplier {
-//   id             String      @id @default(auto()) @map("_id") @db.ObjectId
+//   id              String      @id @default(auto()) @map("_id") @db.ObjectId
 //   name            String
 //   phone           String?
 //   email           String?
@@ -95,6 +189,17 @@ model Warehouse {
 //   taxID           String?
 //   notes           String?
 // }
+
+
+
+// model Warehouse {
+//   id           String      @id @default(auto()) @map("_id") @db.ObjectId
+//   warehouseTitle             String
+//   warehouseLocation          String
+//   warehouseType              String?
+//   warehouseDescription       String?
+// }
+
 
 // model Post {
 //   id      String   @id @default(auto()) @map("_id") @db.ObjectId
