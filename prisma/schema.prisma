@@ -19,13 +19,15 @@ model Category {
   categoryTitle        String   @unique
   categoryDescription  String
   items                Item[]   @relation("CategoryItems") // One category can have many items
+   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Item {
   id                   String      @id @default(auto()) @map("_id") @db.ObjectId
   itemName             String
   itemDescription      String?
-  category             Category    @relation("CategoryItems",fields: [categoryId], references: [id]) // Item belongs to a category
+  category             Category    @relation("CategoryItems",fields: [categoryId], references: [id] , onDelete:Cascade) // Item belongs to a category
   categoryId          String    @db.ObjectId 
   itemSku              String      @unique
   itemBarcode          String? 
@@ -48,6 +50,8 @@ model Item {
   adjustments          Adjustment[] @relation("ItemAdjustments") // Item has many adjustments
   warehouse            Warehouse   @relation("WarehouseItems",fields: [warehouseId], references: [id]) // Item is stored in a warehouse
   warehouseId         String   @db.ObjectId 
+   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Supplier {
@@ -62,6 +66,8 @@ model Supplier {
   taxID           String?
   notes           String?
   items           Item[]     @relation("SupplierItems") // One supplier can supply many items
+   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Unit {
@@ -69,12 +75,16 @@ model Unit {
   unitTitle         String
   unitAbbreviation  String
   items             Item[]   @relation("UnitItems") // One unit can be used in many items
+   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Brand {
   id             String   @id @default(auto()) @map("_id") @db.ObjectId
   brandTitle     String   @unique
   items          Item[]   @relation("BrandItems") // One brand can be used in many items
+   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Warehouse {
@@ -85,6 +95,8 @@ warehouseType       String?
 warehouseDescription String?
   
   items            Item[]   @relation("WarehouseItems") // One warehouse can store many items
+   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Adjustment {
@@ -110,6 +122,8 @@ model Adjustment {
   updatedItemNotes           String?
   item                      Item?   @relation("ItemAdjustments", fields: [itemId], references: [id])
   itemId                    String? @db.ObjectId
+   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 
