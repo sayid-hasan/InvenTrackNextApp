@@ -22,3 +22,26 @@ export async function POST(request) {
     );
   }
 }
+
+// get all latest Brands
+export async function GET() {
+  try {
+    const brands = await db.brand.findMany({
+      orderBy: {
+        createdAt: "desc", // 'asc' for ascending, 'desc' for descending
+      },
+    });
+    return NextResponse.json(brands);
+  } catch (error) {
+    console.log(error.message);
+    return NextResponse.json(
+      {
+        error,
+        message: "Failed to fetch brands",
+      },
+      {
+        status: 500,
+      }
+    );
+  }
+}

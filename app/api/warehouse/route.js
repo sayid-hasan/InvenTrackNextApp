@@ -32,3 +32,25 @@ export async function POST(request) {
     );
   }
 }
+// get all latest WareHouse
+export async function GET() {
+  try {
+    const warehouses = await db.warehouse.findMany({
+      orderBy: {
+        createdAt: "desc", // 'asc' for ascending, 'desc' for descending
+      },
+    });
+    return NextResponse.json(warehouses);
+  } catch (error) {
+    console.log(error.message);
+    return NextResponse.json(
+      {
+        error,
+        message: "Failed to fetch Warehouse",
+      },
+      {
+        status: 500,
+      }
+    );
+  }
+}

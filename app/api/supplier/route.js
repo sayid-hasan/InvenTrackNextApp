@@ -42,3 +42,25 @@ export async function POST(request) {
     );
   }
 }
+// get all latest supplier
+export async function GET() {
+  try {
+    const suppliers = await db.supplier.findMany({
+      orderBy: {
+        createdAt: "desc", // 'asc' for ascending, 'desc' for descending
+      },
+    });
+    return NextResponse.json(suppliers);
+  } catch (error) {
+    console.log(error.message);
+    return NextResponse.json(
+      {
+        error,
+        message: "Failed to fetch supplier",
+      },
+      {
+        status: 500,
+      }
+    );
+  }
+}

@@ -22,3 +22,26 @@ export async function POST(request) {
     );
   }
 }
+// get all latest Units
+
+export async function GET() {
+  try {
+    const units = await db.unit.findMany({
+      orderBy: {
+        createdAt: "desc", // 'asc' for ascending, 'desc' for descending
+      },
+    });
+    return NextResponse.json(units);
+  } catch (error) {
+    console.log(error.message);
+    return NextResponse.json(
+      {
+        error,
+        message: "Failed to fetch Unit",
+      },
+      {
+        status: 500,
+      }
+    );
+  }
+}

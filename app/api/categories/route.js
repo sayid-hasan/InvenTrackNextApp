@@ -25,3 +25,25 @@ export async function POST(request) {
     );
   }
 }
+// get all categies in descending order by creation time
+export async function GET() {
+  try {
+    const categories = await db.category.findMany({
+      orderBy: {
+        createdAt: "desc", // 'asc' for ascending, 'desc' for descending
+      },
+    });
+    return NextResponse.json(categories);
+  } catch (error) {
+    console.log(error.message);
+    return NextResponse.json(
+      {
+        error,
+        message: "Failed to fetch category",
+      },
+      {
+        status: 500,
+      }
+    );
+  }
+}
