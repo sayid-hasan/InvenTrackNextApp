@@ -6,7 +6,7 @@ export async function POST(request) {
     const { categoryTitle, categoryDescription } = await request.json();
     const category = await db.category.create({
       data: {
-        categoryTitle,
+        title: categoryTitle,
         categoryDescription,
       },
     });

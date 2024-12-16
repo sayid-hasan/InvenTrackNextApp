@@ -1,6 +1,6 @@
-import React from "react";
 import localFont from "next/font/local";
 import "../styles/main.scss";
+import React from "react";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -12,7 +12,6 @@ const geistMono = localFont({
   variable: "--font-geist-mono",
   weight: "100 900",
 });
-
 export const metadata = {
   title: "InvenTrack",
   description: "Track your inventory smoothly",
@@ -23,6 +22,7 @@ export default function RootLayout({ children }) {
     <React.StrictMode>
       <html lang="en">
         <body
+          suppressHydrationWarning
           className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         >
           {children}

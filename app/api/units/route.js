@@ -6,7 +6,7 @@ export async function POST(request) {
     const { unitTitle, unitAbbreviation } = await request.json();
 
     const unit = await db.unit.create({
-      data: { unitTitle, unitAbbreviation },
+      data: { unitName: unitTitle, title: unitAbbreviation },
     });
     return NextResponse.json(unit);
   } catch (error) {

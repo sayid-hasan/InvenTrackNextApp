@@ -17,7 +17,7 @@ export async function POST(request) {
 
     const supplier = await db.supplier.create({
       data: {
-        supplierName,
+        title: supplierName,
         phone: phone || null,
         email: email || null,
         address: address || null,

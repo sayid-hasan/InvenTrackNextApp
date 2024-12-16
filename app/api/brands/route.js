@@ -6,7 +6,7 @@ export async function POST(request) {
     const { brandTitle } = await request.json();
 
     const brand = await db.brand.create({
-      data: { brandTitle },
+      data: { title: brandTitle },
     });
     return NextResponse.json(brand);
   } catch (error) {

@@ -1,15 +1,18 @@
 "use client";
-import ImageInput from "@/components/dashboard/FormElement/ImageInput/ImageInput";
 
-import SubmitButton from "@/components/dashboard/FormElement/SubmitBtn/SubmitBtn";
-import TextareaInput from "@/components/dashboard/FormElement/TextArea/TextArea";
-import TextInput from "@/components/dashboard/FormElement/TextInput/TextInput";
-import FormHeader from "@/components/dashboard/FormHeader/FormHeader";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+import { useForm } from "react-hook-form";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
 
-const NewItem = () => {
+import TextInput from "../FormElement/TextInput/TextInput";
+import SelectOptions from "../FormElement/SelectOptions/SelectOptions";
+import SubmitButton from "../FormElement/SubmitBtn/SubmitBtn";
+import ImageInput from "../FormElement/ImageInput/ImageInput";
+import TextareaInput from "../FormElement/TextArea/TextArea";
+
+const CreateItemForm = ({ categories, units, brands, suppliers }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
 
@@ -21,18 +24,62 @@ const NewItem = () => {
     formState: { errors },
   } = useForm();
   const onSubmit = async (data) => {
+    if (!imageUrl) {
+      toast.error("please provide a image of product ");
+      return;
+    }
     setIsLoading(true);
+    const {
+      ItemDimension,
+      brandId,
+      buyingPrice,
+      categoryId,
+      itemBarcode,
+      itemDescription,
+      itemName,
+      itemNotes,
+      itemSku,
+      qty,
+      reOrderPoint,
+      sellingPrice,
+      supplierId,
+      unitId,
+      warehouseLocation,
+      weightGm,
+      imageUrl,
+      taxPercentage,
+    } = data;
 
     const baseUrl = "http://localhost:3000";
     // sending data to api endpoint
     try {
-      const response = await axios.post(`${baseUrl}/api/adjustments`, data);
+      const wareHouseData = {
+        ItemDimension,
+        brandId,
+        buyingPrice,
+        categoryId,
+        itemBarcode,
+        itemDescription,
+        itemName,
+        itemNotes,
+        itemSku,
+        qty,
+        reOrderPoint,
+        sellingPrice,
+        supplierId,
+        unitId,
+        warehouseLocation,
+        weightGm,
+        imageUrl,
+        taxPercentage,
+      };
+      const response = await axios.post(`${baseUrl}/api/items`, wareHouseData);
 
       console.log("Server Response: ", response.data);
 
       // Handle successful response
       if (response.status === 200) {
-        console.log("Category created successfully!");
+        toast.success("Item stored successfully!");
         setIsLoading(false);
         setImageUrl("");
         reset();
@@ -40,7 +87,7 @@ const NewItem = () => {
         throw new Error("Unexpected response status");
       }
     } catch (error) {
-      console.log(error);
+      toast.error(`Operation failed ${error.message}`);
       setIsLoading(false);
     }
   };
@@ -50,11 +97,9 @@ const NewItem = () => {
     // Cleanup when the component unmounts
     return () => subscription.unsubscribe();
   }, [watch, imageUrl]);
-  return (
-    <div>
-      {/* header */}
-      <FormHeader link={"/dashboard/inventory"} title={"Update stored Item"} />
 
+  return (
+    <>
       {/* form */}
       <form
         action="
@@ -63,198 +108,176 @@ const NewItem = () => {
         className="grid gap-4 sm:grid-cols-2 sm:gap-6 w-full max-w-4xl mx-auto p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700 my-4"
       >
         {/* item Name */}
-
-        {/*referenceSku SKU */}
         <TextInput
-          label={"SKU of item that you want to update"} //it'll be a select option that will come from database i will do it latter
-          name={"referenceSku"}
+          label={"Item Name"}
+          name={"itemName"}
           register={register}
-          isRequired={false}
+          type="text"
+          className="w-full"
+          errors={errors}
+        />
+
+        {/* category Type main or branch */}
+        <SelectOptions
+          label="Select Items Category"
+          name={"categoryId"}
+          options={categories}
+          register={register}
+          className="w-full"
+        />
+        {/* SKU */}
+        <TextInput
+          label={"SKU"} //(Stock Keeping Unit): A unique identifier for the item to help with tracking.
+          name={"itemSku"}
+          register={register}
           type="text"
           errors={errors}
           className="w-full"
         />
-
         {/* Barcode */}
         <TextInput
-          label={"Update Item Barcode"} //Barcode optional.. will be auto generated
-          name={"updatedBarcode"}
+          label={"Item Barcode"} //Barcode optional.. will be auto generated
+          name={"itemBarcode"}
           register={register}
-          isRequired={false}
           type="text"
+          isRequired={false}
           errors={errors}
           className="w-full"
         />
         {/* Quantity */}
         <TextInput
-          label={" Update Item Stock"} //
-          name={"updatedQty"}
+          label={"Item Quantity"} //
+          name={"qty"}
           register={register}
-          isRequired={false}
           type="number"
           errors={errors}
           className="w-full"
         />
-        {/* Unit
+        {/* Unit */}
         <SelectOptions
-          label="Update Unit"
-          name={"updatedUnit"}
-          options={unitTypeOptions}
+          label="Select Unit"
+          name={"unitId"}
+          options={units}
           register={register}
-          isRequired={false}
           className="w-full"
         />
-        Brands
+        {/* Brands */}
         <SelectOptions
-          label="Update Brand"
-          name={"updatedBrandTitle"}
-          options={brandTypeOptions}
+          label="Select Brand"
+          name={"brandId"}
+          options={brands}
           register={register}
-          isRequired={false}
           className="w-full"
-        /> */}
-
+        />
         {/* buying Price per unit */}
         <TextInput
-          label={"Update Buying Price"}
-          name={"updatedBuyingPrice"}
+          label={"Buying Price"}
+          name={"buyingPrice"}
           pattern={/^[0-9]*\.?[0-9]+$/}
           invalidMessage={"only Numeric values are allowed"}
           register={register}
-          isRequired={false}
           type="text"
           className="w-full"
           errors={errors}
         />
         {/* selling price */}
         <TextInput
-          label={"Update Selling Price"}
-          name={"UpdatedSellingPrice"}
+          label={"Selling Price"}
+          name={"sellingPrice"}
           register={register}
-          isRequired={false}
           type="text"
           pattern={/^[0-9]*\.?[0-9]+$/}
           invalidMessage={"only Numeric values are allowed"}
           className="w-full"
           errors={errors}
         />
-
         {/* Supplier Name */}
-        <TextInput
-          label={"Update Supplier Name"}
-          name={"updatedSupplierName"}
+        <SelectOptions
+          label="Select Suppliers"
+          name={"supplierId"}
+          options={suppliers}
           register={register}
-          isRequired={false}
-          type="text"
           className="w-full"
-          errors={errors}
         />
-
         {/* Reorder Point */}
         <TextInput
-          label={"Update Re-Order Point"}
-          name={"updatedReOrderPoint"}
+          label={"Re-Order Point"}
+          name={"reOrderPoint"}
           register={register}
-          isRequired={false}
           type="number"
+          isRequired={false}
           className="w-full"
           errors={errors}
         />
-
         {/* warehouse location */}
         <TextInput
-          label={"Update Warehouse Location"}
-          name={"updatedWarehouseLocation"}
+          label={"Warehouse Location"}
+          name={"warehouseLocation"}
           register={register}
-          isRequired={false}
           type="text"
           className="w-full"
+          isRequired={false}
           errors={errors}
         />
         {/* weight */}
         <TextInput
-          label={"Update Weight(gm)"}
-          name={"updatedWeightGm"}
-          register={register}
-          isRequired={false}
-          type="text"
-          className="w-full"
-          errors={errors}
-        />
-
-        {/* adjusment reason */}
-        <TextInput
-          label={"Reason of adjustment"}
-          name={"adjustmentReason"}
+          label={"Weight(gm)"}
+          name={"weightGm"}
           register={register}
           type="text"
-          className="w-full"
-          errors={errors}
-        />
-        {/* Date */}
-        <TextInput
-          label={"Date"}
-          name={"adjustmentDate"}
-          register={register}
-          type="date"
           className="w-full"
           errors={errors}
         />
         {/* Dimensions */}
         <TextInput
-          label={"Update Dimensions"}
-          name={"updatedItemDimension"}
+          label={"Dimensions"}
+          name={"ItemDimension"}
           isRequired={false}
           register={register}
           type="text"
           className="w-full"
           errors={errors}
         />
-
         {/* description */}
         <TextareaInput
-          label={"Update Item Description"}
-          name={"updatedItemDescription"}
+          label={"Item Description"}
+          name={"itemDescription"}
           register={register}
           isRequired={false}
           errors={errors}
         />
         {/* extra Notes */}
         <TextareaInput
-          label={"Update item Notes"}
-          name={"updatedItemNotes"}
+          label={"Notes"}
+          name={"itemNotes"}
           isRequired={false}
           register={register}
           errors={errors}
         />
-
         {/* image upload component */}
         <ImageInput
-          label="Update Item Image"
+          label="Item Image"
           imageUrl={imageUrl}
           setImageUrl={setImageUrl}
           className="w-full"
         />
-
         {/* tax rate */}
         <TextInput
           label={"Tax Percentage"}
-          name={"updatedTaxPercentage"}
+          name={"taxPercentage"}
           register={register}
-          isRequired={false}
           type="text"
           pattern={/^[0-9]*\.?[0-9]+$/}
           invalidMessage={"only Numeric values are allowed"}
           className="w-full leading-[1]"
           errors={errors}
         />
-
         {/* submit button */}
-        <SubmitButton title={"Update Item"} isLoading={isLoading} />
+        <SubmitButton title={"Item"} isLoading={isLoading} />
       </form>
       {/* footer */}
-    </div>
+    </>
   );
 };
 
-export default NewItem;
+export default CreateItemForm;

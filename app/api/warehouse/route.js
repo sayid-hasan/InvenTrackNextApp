@@ -12,7 +12,7 @@ export async function POST(request) {
 
     const warehouse = await db.warehouse.create({
       data: {
-        warehouseTitle,
+        title: warehouseTitle,
         warehouseLocation,
         warehouseType: warehouseType || null,
         warehouseDescription: warehouseDescription || null,
