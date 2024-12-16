@@ -16,16 +16,16 @@ const NewWarehouse = () => {
   const [isLoading, setIsLoading] = useState(false);
   // warehouse type options
   const warehouseTypeOptions = [
-    { value: "main", label: "Main" },
-    { value: "branch", label: "Branch" },
-    { value: "distribution", label: "Distribution" },
-    { value: "coldStorage", label: "Cold Storage" },
-    { value: "bonded", label: "Bonded" },
-    { value: "fulfillmentCenter", label: "Fulfillment Center" },
-    { value: "retail", label: "Retail" },
-    { value: "industrial", label: "Industrial" },
-    { value: "rawMaterials", label: "Raw Materials" },
-    { value: "eCommerce", label: "E-commerce" },
+    { id: "main", title: "Main" },
+    { id: "branch", title: "Branch" },
+    { id: "distribution", title: "Distribution" },
+    { id: "coldStorage", title: "Cold Storage" },
+    { id: "bonded", title: "Bonded" },
+    { id: "fulfillmentCenter", title: "Fulfillment Center" },
+    { id: "retail", title: "Retail" },
+    { id: "industrial", title: "Industrial" },
+    { id: "rawMaterials", title: "Raw Materials" },
+    { id: "eCommerce", title: "E-commerce" },
   ];
 
   const {

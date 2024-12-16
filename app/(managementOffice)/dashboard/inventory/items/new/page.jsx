@@ -6,11 +6,20 @@ import CreateItemForm from "@/components/dashboard/CreateItemForm/CreateItem";
 import { getLatestData } from "@/lib/getLatestData";
 
 const NewItem = async () => {
-  const categories = await getLatestData("categories");
+  const categoryData = getLatestData("categories");
+  const brandData = getLatestData("brands");
+  const unitData = getLatestData("units");
+  const supplierData = getLatestData("supplier");
+  const warehouseData = getLatestData("warehouse");
 
-  const brands = await getLatestData("brands");
-  const units = await getLatestData("units");
-  const suppliers = await getLatestData("supplier");
+  // Wait for all data
+  const [categories, brands, units, suppliers, warehouses] = await Promise.all([
+    categoryData,
+    brandData,
+    unitData,
+    supplierData,
+    warehouseData,
+  ]);
 
   return (
     <div>
@@ -23,6 +32,7 @@ const NewItem = async () => {
         categories={categories}
         brands={brands}
         suppliers={suppliers}
+        warehouses={warehouses}
       />
       {/* footer */}
     </div>

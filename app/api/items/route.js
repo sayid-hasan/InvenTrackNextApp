@@ -18,7 +18,7 @@ export async function POST(request) {
       sellingPrice,
       supplierId,
       unitId,
-      warehouseLocation,
+      warehouseId,
       weightGm,
       imageUrl,
       taxPercentage,
@@ -26,7 +26,7 @@ export async function POST(request) {
 
     const item = await db.item.create({
       data: {
-        ItemDimension: ItemDimension || null,
+        itemDimension: ItemDimension || null,
         brandId,
         buyingPrice: parseFloat(buyingPrice),
         categoryId,
@@ -40,7 +40,7 @@ export async function POST(request) {
         sellingPrice: parseFloat(sellingPrice),
         supplierId,
         unitId,
-        warehouseLocation: warehouseLocation || null,
+        warehouseId,
         weightGm: parseFloat(weightGm),
         imageUrl: imageUrl,
         taxPercentage: parseFloat(taxPercentage),

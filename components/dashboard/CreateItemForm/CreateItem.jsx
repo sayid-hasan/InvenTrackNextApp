@@ -1,9 +1,7 @@
 "use client";
 
-import "react-toastify/dist/ReactToastify.css";
-import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
-import axios from "axios";
+
 import React, { useEffect, useState } from "react";
 
 import TextInput from "../FormElement/TextInput/TextInput";
@@ -11,8 +9,16 @@ import SelectOptions from "../FormElement/SelectOptions/SelectOptions";
 import SubmitButton from "../FormElement/SubmitBtn/SubmitBtn";
 import ImageInput from "../FormElement/ImageInput/ImageInput";
 import TextareaInput from "../FormElement/TextArea/TextArea";
-
-const CreateItemForm = ({ categories, units, brands, suppliers }) => {
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+import { makePostRequest } from "@/lib/makeApiPostRequest";
+const CreateItemForm = ({
+  categories = [],
+  units = [],
+  brands = [],
+  suppliers = [],
+  warehouses = [],
+}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
 
@@ -29,67 +35,14 @@ const CreateItemForm = ({ categories, units, brands, suppliers }) => {
       return;
     }
     setIsLoading(true);
-    const {
-      ItemDimension,
-      brandId,
-      buyingPrice,
-      categoryId,
-      itemBarcode,
-      itemDescription,
-      itemName,
-      itemNotes,
-      itemSku,
-      qty,
-      reOrderPoint,
-      sellingPrice,
-      supplierId,
-      unitId,
-      warehouseLocation,
-      weightGm,
-      imageUrl,
-      taxPercentage,
-    } = data;
-
-    const baseUrl = "http://localhost:3000";
-    // sending data to api endpoint
-    try {
-      const wareHouseData = {
-        ItemDimension,
-        brandId,
-        buyingPrice,
-        categoryId,
-        itemBarcode,
-        itemDescription,
-        itemName,
-        itemNotes,
-        itemSku,
-        qty,
-        reOrderPoint,
-        sellingPrice,
-        supplierId,
-        unitId,
-        warehouseLocation,
-        weightGm,
-        imageUrl,
-        taxPercentage,
-      };
-      const response = await axios.post(`${baseUrl}/api/items`, wareHouseData);
-
-      console.log("Server Response: ", response.data);
-
-      // Handle successful response
-      if (response.status === 200) {
-        toast.success("Item stored successfully!");
-        setIsLoading(false);
-        setImageUrl("");
-        reset();
-      } else {
-        throw new Error("Unexpected response status");
-      }
-    } catch (error) {
-      toast.error(`Operation failed ${error.message}`);
-      setIsLoading(false);
-    }
+    // sending data to api endpoint with makeapiPostRequest
+    makePostRequest(
+      setIsLoading,
+      "api/items",
+      { ...data, imageUrl },
+      `Item`,
+      reset
+    );
   };
   useEffect(() => {
     const subscription = watch(() => {});
@@ -209,15 +162,14 @@ const CreateItemForm = ({ categories, units, brands, suppliers }) => {
           className="w-full"
           errors={errors}
         />
-        {/* warehouse location */}
-        <TextInput
-          label={"Warehouse Location"}
-          name={"warehouseLocation"}
+
+        {/* category Type main or branch */}
+        <SelectOptions
+          label="Select Warehouse/Branch"
+          name={"warehouseId"}
+          options={warehouses}
           register={register}
-          type="text"
           className="w-full"
-          isRequired={false}
-          errors={errors}
         />
         {/* weight */}
         <TextInput

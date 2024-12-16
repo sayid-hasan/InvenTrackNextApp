@@ -42,7 +42,7 @@ model Item {
   supplier            Supplier    @relation("SupplierItems",fields: [supplierId], references: [id]) // Item is supplied by a supplier
   supplierId          String    @db.ObjectId 
   reOrderPoint         Int?
-  warehouseLocation    String?
+
   imageUrl             String
   weightGm             Float?
   itemDimension        String?
