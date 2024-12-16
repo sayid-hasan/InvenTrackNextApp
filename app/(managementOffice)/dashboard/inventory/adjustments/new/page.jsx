@@ -1,51 +1,91 @@
 "use client";
 import ImageInput from "@/components/dashboard/FormElement/ImageInput/ImageInput";
 
+import SkuSelectOptions from "@/components/dashboard/FormElement/SkuSelectInput/SkuSelectInput";
+
 import SubmitButton from "@/components/dashboard/FormElement/SubmitBtn/SubmitBtn";
 import TextareaInput from "@/components/dashboard/FormElement/TextArea/TextArea";
 import TextInput from "@/components/dashboard/FormElement/TextInput/TextInput";
 import FormHeader from "@/components/dashboard/FormHeader/FormHeader";
+import { makePostRequest } from "@/lib/makeApiPostRequest";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-const NewItem = () => {
+const NewAdjustment = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
 
+  const [serverData, setServerData] = useState(null);
+  const [skus, setSkus] = useState([]);
+
+  // baseUrl
+  const baseUrl = "http://localhost:3000";
+
+  // fetch item data
+  const fetchItemData = async (sku) => {
+    try {
+      const response = await fetch(`/api/items/get-item?sku=${sku}`);
+      const data = await response.json();
+      setServerData(data);
+      // Populate form with the fetched data
+      setValue("itemDimension", data.itemDimension);
+      setValue("brandId", data.brandId);
+      setValue("buyingPrice", data.buyingPrice);
+      setValue("categoryId", data.categoryId);
+      setValue("itemBarcode", data.itemBarcode);
+      setValue("itemDescription", data.itemDescription);
+      setValue("itemName", data.itemName);
+      setValue("itemNotes", data.itemNotes);
+      setValue("qty", data.qty);
+      setValue("reOrderPoint", data.reOrderPoint);
+      setValue("sellingPrice", data.sellingPrice);
+      setValue("supplierId", data.supplierId);
+      setValue("unitId", data.unitId);
+      setValue("warehouseId", data.warehouseId);
+      setValue("weightGm", data.weightGm);
+      setValue("imageUrl", data.imageUrl);
+      setValue("taxPercentage", data.taxPercentage);
+    } catch (error) {
+      console.error("Error fetching item data:", error);
+    }
+  };
+
+  // Fetch the list of SKUs when the component mounts
+  useEffect(() => {
+    const fetchSkus = async () => {
+      const response = await axios.get(`${baseUrl}/api/items`);
+
+      setSkus(response.data);
+    };
+    fetchSkus();
+  }, []);
   const {
     register,
     handleSubmit,
     watch,
     reset,
+    setValue,
     formState: { errors },
   } = useForm();
   const onSubmit = async (data) => {
     setIsLoading(true);
 
-    const baseUrl = "http://localhost:3000";
     // sending data to api endpoint
-    try {
-      const response = await axios.post(`${baseUrl}/api/adjustments`, data);
-
-      console.log("Server Response: ", response.data);
-
-      // Handle successful response
-      if (response.status === 200) {
-        console.log("Category created successfully!");
-        setIsLoading(false);
-        setImageUrl("");
-        reset();
-      } else {
-        throw new Error("Unexpected response status");
-      }
-    } catch (error) {
-      console.log(error);
-      setIsLoading(false);
-    }
+    await makePostRequest(
+      setIsLoading,
+      "api/adjustments",
+      { ...data, imageUrl },
+      `Adjustments`,
+      reset
+    );
+    setImageUrl("");
   };
+
   useEffect(() => {
-    const subscription = watch(() => {});
+    const subscription = watch((itemSku) => {
+      fetchItemData(itemSku);
+    });
 
     // Cleanup when the component unmounts
     return () => subscription.unsubscribe();
@@ -64,14 +104,12 @@ const NewItem = () => {
       >
         {/* item Name */}
 
-        {/*referenceSku SKU */}
-        <TextInput
-          label={"SKU of item that you want to update"} //it'll be a select option that will come from database i will do it latter
-          name={"referenceSku"}
+        {/* Sku based data fetching*/}
+        <SkuSelectOptions
+          label="Select Item that need to update"
+          name={"itemSku"}
+          options={skus}
           register={register}
-          isRequired={false}
-          type="text"
-          errors={errors}
           className="w-full"
         />
 
@@ -257,4 +295,4 @@ const NewItem = () => {
   );
 };
 
-export default NewItem;
+export default NewAdjustment;

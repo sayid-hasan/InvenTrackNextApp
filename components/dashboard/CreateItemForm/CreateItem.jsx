@@ -36,13 +36,14 @@ const CreateItemForm = ({
     }
     setIsLoading(true);
     // sending data to api endpoint with makeapiPostRequest
-    makePostRequest(
+    await makePostRequest(
       setIsLoading,
       "api/items",
       { ...data, imageUrl },
       `Item`,
       reset
     );
+    setImageUrl("");
   };
   useEffect(() => {
     const subscription = watch(() => {});
