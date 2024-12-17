@@ -164,7 +164,7 @@ const CreateItemForm = ({
           errors={errors}
         />
 
-        {/* category Type main or branch */}
+        {/* warehouse Type main or branch */}
         <SelectOptions
           label="Select Warehouse/Branch"
           name={"warehouseId"}

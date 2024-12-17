@@ -6,6 +6,7 @@ export async function GET(request) {
     // Extract SKU from query parameters
     const url = new URL(request.url);
     const sku = url.searchParams.get("sku");
+    console.log(sku, url);
 
     if (!sku) {
       return NextResponse.json({ message: "SKU is required" }, { status: 400 });

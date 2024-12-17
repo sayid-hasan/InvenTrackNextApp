@@ -23,14 +23,8 @@ export default function ClientLayout({ children }) {
 
   if (!isClient) return null; // Render nothing until the client is ready
   return (
-    <React.StrictMode>
-      <html lang="en">
-        <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-        >
-          {children}
-        </body>
-      </html>
-    </React.StrictMode>
+    <div className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      {children}
+    </div>
   );
 }
