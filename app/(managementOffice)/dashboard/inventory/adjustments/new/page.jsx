@@ -10,7 +10,7 @@ const NewAdjustment = async () => {
   const unitData = getLatestData("units");
   const supplierData = getLatestData("supplier");
   const warehouseData = getLatestData("warehouse");
-  const skusData = getLatestData("items");
+  const skusData = getLatestData("items/get-skus");
 
   // Wait for all data
   const [categories, brands, units, suppliers, warehouses, skus] =

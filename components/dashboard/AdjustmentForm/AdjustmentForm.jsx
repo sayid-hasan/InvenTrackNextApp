@@ -46,6 +46,7 @@ const AdjustmentForm = ({
       setValue("updatedItemName", data.itemName);
       setValue("updatedBrandId", data?.brandId);
       setValue("updatedBuyingPrice", data.buyingPrice);
+      setValue("updatedSellingPrice", data.sellingPrice);
       setValue("updatedCategoryId", data?.categoryId);
       setValue("updatedBarcode", data.itemBarcode);
       setValue("updatedItemDescription", data.itemDescription);
@@ -53,7 +54,7 @@ const AdjustmentForm = ({
       setValue("updatedItemNotes", data.itemNotes);
       setValue("updatedQty", data.qty);
       setValue("updatedReOrderPoint", data.reOrderPoint);
-      setValue("updatedSellingPrice", data.sellingPrice);
+
       setValue("updatedSupplierId", data.supplierId);
       setValue("updatedUnitId", data.unitId);
       setValue("updatedWarehouseId", data.warehouseId);
@@ -79,12 +80,12 @@ const AdjustmentForm = ({
   // onSubmit form
   const onSubmit = async (data) => {
     setIsLoading(true);
-
+    console.log(data);
     // sending data to api endpoint
     await makePostRequest(
       setIsLoading,
       "api/adjustments",
-      { ...data, imageUrl },
+      { ...data, updatedImageUrl: imageUrl },
       `Adjustments`,
       reset
     );
@@ -217,23 +218,12 @@ const AdjustmentForm = ({
         {/* selling price */}
         <TextInput
           label={"Update Selling Price"}
-          name={"UpdatedSellingPrice"}
+          name={"updatedSellingPrice"}
           register={register}
           isRequired={false}
           type="text"
           pattern={/^[0-9]*\.?[0-9]+$/}
           invalidMessage={"only Numeric values are allowed"}
-          className="w-full"
-          errors={errors}
-        />
-
-        {/* Supplier Name */}
-        <TextInput
-          label={"Update Supplier Name"}
-          name={"updatedSupplierName"}
-          register={register}
-          isRequired={false}
-          type="text"
           className="w-full"
           errors={errors}
         />
@@ -249,16 +239,6 @@ const AdjustmentForm = ({
           errors={errors}
         />
 
-        {/* warehouse location */}
-        <TextInput
-          label={"Update Warehouse Location"}
-          name={"updatedWarehouseLocation"}
-          register={register}
-          isRequired={false}
-          type="text"
-          className="w-full"
-          errors={errors}
-        />
         {/* weight */}
         <TextInput
           label={"Update Weight(gm)"}

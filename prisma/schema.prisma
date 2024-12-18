@@ -102,32 +102,29 @@ warehouseDescription String?
 }
 
 model Adjustment {
-  id                         String      @id @default(auto()) @map("_id") @db.ObjectId
-  updatedItemName            String?
-  itemDescription            String?
-  categoryTitle              String?   
-  referenceSku               String    @unique
-  updatedBarcode             String? 
-  updatedQty                 Int? 
-  updatedBrandId             String?
-  updatedCategoryId          String?
-  updatedSupplierId          String?
-  updatedUnitId              String?     
-  updatedSellingPrice        Float? 
-  updatedBuyingPrice         Float? 
-  updatedSupplierName        String? 
-  updatedReOrderPoint        Int? 
-  updatedWarehouseLocation   String? 
-  adjustmentReason           String
-  adjustmentDate             DateTime
-  updatedWeightGm            Float? 
-  updatedItemDimension       String? 
-  updatedTaxPercentage       Float? 
-  updatedItemNotes           String?
-  item                      Item?   @relation("ItemAdjustments", fields: [itemId], references: [id])
-  itemId                    String? @db.ObjectId
-  createdAt                 DateTime @default(now())
-  updatedAt                 DateTime @updatedAt
+ id                     String    @id @default(auto()) @map("_id") @db.ObjectId
+  itemId                 String    @db.ObjectId
+  item                   Item      @relation("ItemAdjustments",fields: [itemId], references: [id])
+  adjustmentReason       String
+  adjustmentDate         DateTime
+  referenceSku           String
+  updatedItemName        String
+  updatedItemDescription String?
+  updatedQty             Int
+  updatedBrandId         String   @db.ObjectId
+  updatedCategoryId      String   @db.ObjectId
+  updatedItemBarcode     String?
+  updatedSellingPrice    Float
+  updatedBuyingPrice     Float
+  updatedSupplierId      String   @db.ObjectId
+  updatedReOrderPoint    Int?
+  updatedWeightGm        Float?
+  updatedItemDimension   String?
+  updatedTaxPercentage   Float
+  updatedItemNotes       String?
+  updatedWarehouseId     String   @db.ObjectId
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
 }
 
 
