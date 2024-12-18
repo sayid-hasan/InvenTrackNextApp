@@ -1,7 +1,29 @@
+import DataTable from "@/components/dashboard/DataTable/DataTable";
+import FixedHeader from "@/components/dashboard/FixedHeader/FixedHeader";
+import { getLatestData } from "@/lib/getLatestData";
 import React from "react";
 
-const Categories = () => {
-  return <div>ItemGroups</div>;
+const Categories = async () => {
+  const categories = await getLatestData("categories");
+  const categoryTableData = categories.map((obj) => {
+    return {
+      title: obj.title,
+      description: obj.categoryDescription,
+    };
+  });
+  const columns = ["title", "description"];
+  return (
+    <div className="my-5 container mx-auto">
+      {/* header */}
+      <FixedHeader
+        title={"Categories"}
+        newLink="/dashboard/inventory/categories/new"
+      />
+
+      {/* dataTable */}
+      <DataTable data={categoryTableData} columns={columns} />
+    </div>
+  );
 };
 
 export default Categories;

@@ -30,11 +30,11 @@ const NewAdjustment = async () => {
 
       {/* form */}
       <AdjustmentForm
-        categoryOptions={units}
-        brandOptions={categories}
-        unitOptions={brands}
-        warehouseOptions={suppliers}
-        supplierOptions={warehouses}
+        categoryOptions={categories}
+        brandOptions={brands}
+        unitOptions={units}
+        warehouseOptions={warehouses}
+        supplierOptions={suppliers}
         skus={skus}
       />
       {/* footer */}

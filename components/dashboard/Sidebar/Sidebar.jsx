@@ -21,31 +21,31 @@ const Sidebar = () => {
   const inventoryLinks = [
     {
       title: "Items",
-      link: "/dashboard/inventory",
+      link: "/dashboard/inventory/items",
     },
     {
       title: "Categories",
-      link: "/dashboard/inventory",
+      link: "/dashboard/inventory/categories",
     },
     {
       title: "Brands",
-      link: "/dashboard/inventory",
+      link: "/dashboard/inventory/brands",
     },
     {
       title: "Units",
-      link: "/dashboard/inventory",
+      link: "/dashboard/inventory/units",
     },
     {
       title: "Warehouse",
-      link: "/dashboard/inventory",
+      link: "/dashboard/inventory/warehouse",
     },
     {
       title: "Inventory Adjustments",
-      link: "/dashboard/inventory",
+      link: "/dashboard/inventory/adjustments",
     },
     {
       title: "Supplier",
-      link: "/dashboard/inventory",
+      link: "/dashboard/inventory/supplier",
     },
   ];
   const sellLinks = [
@@ -123,6 +123,7 @@ const Sidebar = () => {
             name={"Inventory"}
             linkItems={inventoryLinks}
             icon={<Scroll className="w-4 h-4" />}
+            accordianTriggerLink="/dashboard/inventory"
           />
 
           {/* collapsible sellLinks SidebarDropdownLinks from component */}
@@ -130,6 +131,7 @@ const Sidebar = () => {
             name={"Sales"}
             linkItems={sellLinks}
             icon={<ShoppingCart className="w-4 h-4" />}
+            accordianTriggerLink="/dashboard/sell"
           />
 
           {/* Purchases Button */}

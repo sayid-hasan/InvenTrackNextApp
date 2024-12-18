@@ -1,3 +1,4 @@
+"use client";
 import {
   HelpCircle,
   LayoutGrid,
@@ -9,11 +10,11 @@ import Link from "next/link";
 import React from "react";
 import { Tooltip } from "react-tooltip";
 
-const FixedHeader = ({ newLink }) => {
+const FixedHeader = ({ newLink, title }) => {
   return (
     <div className="flex justify-between items-center bg-white px-4 py-5">
       {/* right part dropdown btn */}
-      <button className="text-2xl font-medium">All Items</button>
+      <button className="text-2xl font-medium">{title}</button>
       {/* left part */}
 
       <div className="flex gap-1">

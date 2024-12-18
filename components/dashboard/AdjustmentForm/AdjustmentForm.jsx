@@ -10,6 +10,7 @@ import SelectOptions from "../FormElement/SelectOptions/SelectOptions";
 import TextareaInput from "../FormElement/TextArea/TextArea";
 import ImageInput from "../FormElement/ImageInput/ImageInput";
 import SubmitButton from "../FormElement/SubmitBtn/SubmitBtn";
+import { getLatestData } from "@/lib/getLatestData";
 
 const AdjustmentForm = ({
   categoryOptions,
@@ -25,6 +26,18 @@ const AdjustmentForm = ({
   const [serverData, setServerData] = useState(null);
 
   const [singleItemSku, setSingleItemSku] = useState("");
+
+  const [refreshSkuItem, setRefreshSkuItem] = useState(skus);
+
+  // Function to refetch SKUs
+  const refreshSkus = async () => {
+    try {
+      const updatedSkus = await getLatestData("items/get-skus");
+      setRefreshSkuItem(updatedSkus);
+    } catch (error) {
+      console.error("Failed to refresh SKUs:", error);
+    }
+  };
 
   // baseUrl
   const baseUrl = "http://localhost:3000";
@@ -90,6 +103,7 @@ const AdjustmentForm = ({
       reset
     );
     setImageUrl("");
+    refreshSkus();
   };
 
   // item fetch data useEffect
@@ -120,7 +134,7 @@ const AdjustmentForm = ({
         <SkuSelectOptions
           label="Select Item that need to update"
           name={"itemSku"}
-          options={skus}
+          options={refreshSkuItem}
           register={register}
           className="w-full"
           setSingleItemSku={setSingleItemSku}

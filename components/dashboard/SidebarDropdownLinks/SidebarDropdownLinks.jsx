@@ -7,20 +7,27 @@ import {
 
 import React from "react";
 import CollapsibleLink from "../CollapsibleLinks/CollapsibleLink";
+import Link from "next/link";
 
-const SidebarDropdownLinks = ({ name, linkItems, icon }) => {
+const SidebarDropdownLinks = ({
+  name,
+  linkItems,
+  icon,
+  accordianTriggerLink = "/dashboard",
+}) => {
   return (
     <Accordion type="single" collapsible>
       <AccordionItem className="border-none" value="item-1">
         <AccordionTrigger className="flex justify-between items-center p-2 rounded-md">
           {" "}
-          <div
+          <Link
+            href={accordianTriggerLink}
             className="flex 
                 grow flex-1 items-center justify-start gap-2 text-lg font-semibold"
           >
             {icon}
             <span>{name}</span>
-          </div>
+          </Link>
         </AccordionTrigger>
         <AccordionContent className="pl-6">
           {linkItems.map((links, index) => {

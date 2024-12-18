@@ -33,16 +33,16 @@ export async function POST(request) {
     if (updatedItemName) updatedItemData.itemName = updatedItemName;
     if (updatedItemDescription)
       updatedItemData.itemDescription = updatedItemDescription;
-    if (updatedCategoryId) updatedItemData.categoryId = updatedCategoryId;
+    // if (updatedCategoryId) updatedItemData.categoryId = updatedCategoryId;
     if (updatedBarcode) updatedItemData.itemBarcode = updatedBarcode;
     if (updatedQty !== undefined) updatedItemData.qty = parseInt(updatedQty);
-    if (updatedBrandId) updatedItemData.brandId = updatedBrandId;
-    if (updatedUnitId) updatedItemData.unitId = updatedUnitId;
+    // if (updatedBrandId) updatedItemData.brandId = updatedBrandId;
+    // if (updatedUnitId) updatedItemData.unitId = updatedUnitId;
     if (updatedSellingPrice)
       updatedItemData.sellingPrice = parseFloat(updatedSellingPrice);
     if (updatedBuyingPrice)
       updatedItemData.buyingPrice = parseFloat(updatedBuyingPrice);
-    if (updatedSupplierId) updatedItemData.supplierId = updatedSupplierId;
+    // if (updatedSupplierId) updatedItemData.supplierId = updatedSupplierId;
     if (updatedReOrderPoint !== undefined)
       updatedItemData.reOrderPoint = parseFloat(updatedReOrderPoint);
     if (updatedImageUrl) updatedItemData.imageUrl = updatedImageUrl;
@@ -52,12 +52,26 @@ export async function POST(request) {
     if (updatedTaxPercentage)
       updatedItemData.taxPercentage = parseFloat(updatedTaxPercentage);
     if (updatedItemNotes) updatedItemData.itemNotes = updatedItemNotes;
-    if (updatedWarehouseId) updatedItemData.warehouseId = updatedWarehouseId;
+    // if (updatedWarehouseId) updatedItemData.warehouseId = updatedWarehouseId;
     console.log("adjustment data", updatedItemData);
+
     // Update the item in the database
     const updatedItem = await db.item.update({
       where: { itemSku }, // Assuming `itemSku` is the unique identifier
-      data: updatedItemData, // Only the provided fields will be updated
+      data: {
+        ...updatedItemData, // Updated fields
+        brand: updatedBrandId ? { connect: { id: updatedBrandId } } : undefined,
+        category: updatedCategoryId
+          ? { connect: { id: updatedCategoryId } }
+          : undefined,
+        supplier: updatedSupplierId
+          ? { connect: { id: updatedSupplierId } }
+          : undefined,
+        warehouse: updatedWarehouseId
+          ? { connect: { id: updatedWarehouseId } }
+          : undefined,
+        unit: updatedUnitId ? { connect: { id: updatedUnitId } } : undefined,
+      },
     });
 
     const newAdjustment = await db.adjustment.create({
@@ -91,6 +105,28 @@ export async function POST(request) {
       {
         error,
         message: "Failed to update item",
+      },
+      {
+        status: 500,
+      }
+    );
+  }
+}
+
+export async function GET() {
+  try {
+    const adjustments = await db.adjustment.findMany({
+      orderBy: {
+        createdAt: "desc", // 'asc' for ascending, 'desc' for descending
+      },
+    });
+    return NextResponse.json(adjustments);
+  } catch (error) {
+    console.log(error.message);
+    return NextResponse.json(
+      {
+        error,
+        message: "Failed to fetch Adjustments Details",
       },
       {
         status: 500,

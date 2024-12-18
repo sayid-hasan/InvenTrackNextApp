@@ -33,7 +33,7 @@ model Item {
   
   itemBarcode          String? 
   qty                  Int
-  unit                 Unit        @relation("UnitItems",fields: [unitId], references: [id]) // Item uses a unit
+  unit                 Unit       @relation("UnitItems",fields: [unitId], references: [id]) // Item uses a unit
   unitId               String   @db.ObjectId 
   brand                Brand       @relation("BrandItems",fields: [brandId], references: [id]) // Item uses a brand
   brandId             String    @db.ObjectId 
