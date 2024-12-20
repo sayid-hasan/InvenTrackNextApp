@@ -10,7 +10,7 @@ const layout = ({ children }) => {
       {/* sidebar */}
       <Sidebar></Sidebar>
       {/* main */}
-      <main className="w-full ml-60 bg-slate-100 min-h-screen h-full overflow-y-auto">
+      <main className=" container mx-auto w-full sm:ml-60 ml-0 bg-slate-100 min-h-screen h-full overflow-y-auto">
         <Header></Header>
         {children}
       </main>

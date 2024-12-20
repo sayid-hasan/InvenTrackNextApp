@@ -107,7 +107,7 @@ const NewSupplier = () => {
         {/*adress */}
         <TextInput
           label={"Supplier address"}
-          name={"email"}
+          name={"address"}
           register={register}
           type="text"
           errors={errors}

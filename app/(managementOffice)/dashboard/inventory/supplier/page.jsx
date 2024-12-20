@@ -10,9 +10,10 @@ const Suppliers = async () => {
       title: obj.title,
       phone: obj.phone,
       email: obj.email,
+      address: obj.address,
     };
   });
-  const columns = ["title", "phone", "email"];
+  const columns = ["title", "phone", "email", "address"];
   return (
     <div className="my-5 container mx-auto">
       {/* header */}

@@ -2,6 +2,7 @@
 
 import SearchInput from "@/components/shared/SearchInput/SearchInput";
 import {
+  AlignJustify,
   Bell,
   ChevronDown,
   History,
@@ -19,7 +20,11 @@ const Header = () => {
     <div className="bg-gray-50 text-slate-900 h-14 flex items-center justify-between px-5 border-b border-slate-200  shadow-sm">
       {/* segment */}
       <div className="grow flex-1 flex ">
-        <div className="flex gap-3 items-center ">
+        <button className="sm:hidden flex ">
+          {/* menu burger */}
+          <AlignJustify className="w-7 h-7" />
+        </button>
+        <div className="sm:flex hidden gap-3 items-center ">
           {/* recent activity */}
           {/* recent history icon from lucide */}
           <History className="w-7 h-7" />
@@ -29,7 +34,7 @@ const Header = () => {
         </div>
       </div>
       {/* 2nd segment */}
-      <div className="flex px-2  items-center gap-2">
+      <div className="sm:flex hidden px-2  items-center gap-2">
         {/* plus button */}
         <div className="flex px-2 border-r border-r-gray-300">
           {/* <!-- Show tooltip on bottom --> */}
@@ -77,10 +82,11 @@ const Header = () => {
       {/* 3rd sections */}
       <div className="flex gap-6">
         {/* Garat name of organization */}
-        <button className="flex-row-reverse text-slate-900 flex items-center gap-1">
+        <button className="sm:flex-row-reverse hidden text-slate-900  items-center gap-1">
           <span>Garat</span>
           <ChevronDown className="text-xs" />
         </button>
+
         {/* this will be dynamic */}
         {/* image */}
         <button>
@@ -94,8 +100,8 @@ const Header = () => {
         </button>
 
         {/* grid button */}
-        <button>
-          <LayoutGrid className="w-6 h-6 text-slate-900" />
+        <button className="sm:block hidden">
+          <LayoutGrid className="w-6 h-6 text-slate-900 " />
         </button>
       </div>
     </div>

@@ -4,7 +4,7 @@ import React from "react";
 
 const SearchInput = () => {
   return (
-    <div className="relative w-full">
+    <div className="relative w-full sm:block hidden">
       <div className="absolute inset-y-0 start-0 flex items-center ps-3 pointer-events-none">
         {/* search  icon from lucide */}
         <Search className="w-4 h-4 text-gray-500 dark:text-gray-400" />

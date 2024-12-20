@@ -91,7 +91,7 @@ const Sidebar = () => {
     },
   ];
   return (
-    <div className="w-60 max-h-screen flex flex-col justify-between bg-slate-800 text-slate-50 fixed overflow-y-auto overflow-hidden ">
+    <div className="w-60 sm:flex hidden max-h-screen  flex-col justify-between bg-slate-800 text-slate-50 fixed overflow-y-auto overflow-hidden ">
       {/* top */}
       <div className="flex flex-col">
         {/* logo */}
