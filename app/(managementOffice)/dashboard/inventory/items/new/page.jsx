@@ -24,7 +24,7 @@ const NewItem = async () => {
   return (
     <div>
       {/* header */}
-      <FormHeader link={"/dashboard/inventory"} title={"New Item"} />
+      <FormHeader link={"/dashboard/inventory/items"} title={"New Item"} />
 
       {/* form */}
       <CreateItemForm

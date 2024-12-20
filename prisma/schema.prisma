@@ -102,9 +102,9 @@ warehouseDescription String?
 }
 
 model Adjustment {
- id                     String    @id @default(auto()) @map("_id") @db.ObjectId
-  itemId                 String    @db.ObjectId
-  item                   Item      @relation("ItemAdjustments",fields: [itemId], references: [id])
+  id                     String    @id @default(auto()) @map("_id") @db.ObjectId
+  itemId                 String?   @db.ObjectId
+  item                   Item?     @relation("ItemAdjustments", fields: [itemId], references: [id])
   adjustmentReason       String
   adjustmentDate         DateTime
   referenceSku           String
@@ -126,6 +126,7 @@ model Adjustment {
   createdAt              DateTime @default(now())
   updatedAt              DateTime @updatedAt
 }
+
 
 
 

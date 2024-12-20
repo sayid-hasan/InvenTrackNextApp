@@ -36,7 +36,10 @@ const NewCategory = () => {
   return (
     <div>
       {/* header */}
-      <FormHeader link={"/dashboard/inventory"} title={"New Category"} />
+      <FormHeader
+        link={"/dashboard/inventory/categories"}
+        title={"New Category"}
+      />
 
       {/* form */}
       <form

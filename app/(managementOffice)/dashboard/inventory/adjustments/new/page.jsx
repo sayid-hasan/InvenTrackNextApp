@@ -26,7 +26,10 @@ const NewAdjustment = async () => {
   return (
     <div>
       {/* header */}
-      <FormHeader link={"/dashboard/inventory"} title={"Update stored Item"} />
+      <FormHeader
+        link={"/dashboard/inventory/adjustments"}
+        title={"Update stored Item"}
+      />
 
       {/* form */}
       <AdjustmentForm

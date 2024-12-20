@@ -38,7 +38,7 @@ const NewUnit = () => {
   return (
     <div>
       {/* header */}
-      <FormHeader link={"/dashboard/inventory"} title={"New Unit"} />
+      <FormHeader link={"/dashboard/inventory/units"} title={"New Unit"} />
 
       {/* form */}
       <form
