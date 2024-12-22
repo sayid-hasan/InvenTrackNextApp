@@ -1,5 +1,5 @@
 "use client";
-import FixedHeader from "@/components/dashboard/FixedHeader/fixedHeader";
+import FixedHeader from "@/components/dashboard/FixedHeader/FixedHeader";
 import OptionCard from "@/components/dashboard/OptionCard/OptionCard";
 import {
   Box,

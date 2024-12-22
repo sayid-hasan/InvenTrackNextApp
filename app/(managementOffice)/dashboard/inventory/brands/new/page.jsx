@@ -8,22 +8,42 @@ import FormHeader from "@/components/dashboard/FormHeader/FormHeader";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-import { makePostRequest } from "@/lib/makeApiPostRequest";
+import { makePostRequest, makePutRequest } from "@/lib/makeApiPostRequest";
+import { useRouter } from "next/navigation";
 
-const NewBrand = () => {
+const NewBrand = ({ initialData = {}, isUpdate = false }) => {
   const [isLoading, setIsLoading] = useState(false);
-
+  // redirect function after updating
+  const router = useRouter();
+  const redirect = () => {
+    return router.push("/dashboard/inventory/brands");
+  };
   const {
     register,
     handleSubmit,
     watch,
+
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      brandTitle: initialData?.title,
+    },
+  });
   const onSubmit = async (data) => {
     setIsLoading(true);
-    // sending data to api endpoint with makeapiPostRequest
-    makePostRequest(setIsLoading, "api/brands", data, `Brand`, reset);
+    if (isUpdate) {
+      makePutRequest(
+        setIsLoading,
+        `api/brands/${initialData?.id}`,
+        data,
+        `Brand`,
+        redirect
+      );
+    } else {
+      // sending data to api endpoint with makeapiPostRequest
+      makePostRequest(setIsLoading, "api/brands", data, `Brand`, reset);
+    }
   };
   useEffect(() => {
     const subscription = watch(() => {});
@@ -34,7 +54,10 @@ const NewBrand = () => {
   return (
     <div>
       {/* header */}
-      <FormHeader link={"/dashboard/inventory/brands"} title={"New Brand"} />
+      <FormHeader
+        link={"/dashboard/inventory/brands"}
+        title={isUpdate ? "Update Brand" : "New Brand"}
+      />
 
       {/* form */}
       <form
@@ -54,7 +77,10 @@ const NewBrand = () => {
         />
 
         {/* submit button */}
-        <SubmitButton title={"Brand"} isLoading={isLoading} />
+        <SubmitButton
+          title={isUpdate ? "Updated Brand" : "New Brand"}
+          isLoading={isLoading}
+        />
       </form>
       {/* footer */}
     </div>

@@ -9,6 +9,7 @@ const Brands = async () => {
     return {
       title: obj.title,
       createdAt: obj.createdAt,
+      id: obj.id,
     };
   });
   const columns = ["title", "createdAt"];
@@ -19,7 +20,11 @@ const Brands = async () => {
 
       {/* dataTable */}
       <div className="my-5 container mx-auto">
-        <DataTable data={brandsTableData} columns={columns} />
+        <DataTable
+          data={brandsTableData}
+          columns={columns}
+          resourceTitle={"brands"}
+        />
       </div>
     </div>
   );
