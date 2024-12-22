@@ -18,7 +18,15 @@ export async function POST(request) {
         warehouseDescription: warehouseDescription || null,
       },
     });
-    return NextResponse.json(warehouse);
+    return NextResponse.json(
+      {
+        data: warehouse,
+        message: "created warehouse successfully",
+      },
+      {
+        status: 200,
+      }
+    );
   } catch (error) {
     console.log(error.message);
     return NextResponse.json(

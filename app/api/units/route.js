@@ -8,7 +8,15 @@ export async function POST(request) {
     const unit = await db.unit.create({
       data: { unitName: unitTitle, title: unitAbbreviation },
     });
-    return NextResponse.json(unit);
+    return NextResponse.json(
+      {
+        data: unit,
+        message: "created unit successfully",
+      },
+      {
+        status: 200,
+      }
+    );
   } catch (error) {
     console.log(error.message);
     return NextResponse.json(

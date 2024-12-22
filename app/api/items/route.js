@@ -46,7 +46,15 @@ export async function POST(request) {
         taxPercentage: parseFloat(taxPercentage),
       },
     });
-    return NextResponse.json(item);
+    return NextResponse.json(
+      {
+        data: item,
+        message: "created item successfully",
+      },
+      {
+        status: 200,
+      }
+    );
   } catch (error) {
     console.log(error.message);
     return NextResponse.json(

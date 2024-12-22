@@ -11,7 +11,15 @@ export async function POST(request) {
       },
     });
     // console.log(category);
-    return NextResponse.json(category);
+    return NextResponse.json(
+      {
+        data: category,
+        message: "created category successfully",
+      },
+      {
+        status: 200,
+      }
+    );
   } catch (error) {
     console.log(error.message);
     return NextResponse.json(

@@ -28,7 +28,15 @@ export async function POST(request) {
         notes: notes || null,
       },
     });
-    return NextResponse.json(supplier);
+    return NextResponse.json(
+      {
+        data: supplier,
+        message: "created supplier successfully",
+      },
+      {
+        status: 200,
+      }
+    );
   } catch (error) {
     console.log(error.message);
     return NextResponse.json(

@@ -100,7 +100,7 @@ const NewWarehouse = () => {
         />
 
         {/* submit button */}
-        <SubmitButton title={"Brand"} isLoading={isLoading} />
+        <SubmitButton title={"Warehouse"} isLoading={isLoading} />
       </form>
       {/* footer */}
     </div>
