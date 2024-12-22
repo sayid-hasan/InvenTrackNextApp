@@ -7,6 +7,7 @@ const Categories = async () => {
   const categories = await getLatestData("categories");
   const categoryTableData = categories.map((obj) => {
     return {
+      id: obj.id,
       title: obj.title,
       description: obj.categoryDescription,
     };
@@ -22,7 +23,11 @@ const Categories = async () => {
 
       <div className="my-5 container mx-auto">
         {/* dataTable */}
-        <DataTable data={categoryTableData} columns={columns} />
+        <DataTable
+          data={categoryTableData}
+          columns={columns}
+          resourceTitle="categories"
+        />
       </div>
     </div>
   );

@@ -8,24 +8,45 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import "react-toastify/dist/ReactToastify.css";
 
-import { makePostRequest } from "@/lib/makeApiPostRequest";
+import { makePostRequest, makePutRequest } from "@/lib/makeApiPostRequest";
+import { useRouter } from "next/navigation";
 
-const NewCategory = () => {
+const NewCategory = ({ initialData = {}, isUpdate = false }) => {
   const [isLoading, setIsLoading] = useState(false);
-
+  // redirect function after updating
+  const router = useRouter();
+  const redirect = () => {
+    return router.push("/dashboard/inventory/categories");
+  };
   const {
     register,
     handleSubmit,
     watch,
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      categoryTitle: initialData?.title,
+      categoryDescription: initialData?.categoryDescription,
+    },
+  });
   const onSubmit = async (data) => {
     setIsLoading(true);
 
+    if (isUpdate) {
+      makePutRequest(
+        setIsLoading,
+        `api/categories/${initialData?.id}`,
+        data,
+        `Category`,
+        redirect
+      );
+    } else {
+      // sending data to api endpoint with makeapiPostRequest
+      makePostRequest(setIsLoading, "api/categories", data, `Category`, reset);
+    }
+
     // console.log(data);
-    // sending data to api endpoint with makeapiPostRequest
-    makePostRequest(setIsLoading, "api/categories", data, `Category`, reset);
   };
   useEffect(() => {
     const subscription = watch(() => {});
@@ -38,7 +59,7 @@ const NewCategory = () => {
       {/* header */}
       <FormHeader
         link={"/dashboard/inventory/categories"}
-        title={"New Category"}
+        title={isUpdate ? "Update Category" : "New Category"}
       />
 
       {/* form */}
@@ -66,7 +87,10 @@ const NewCategory = () => {
         />
 
         {/* submit button */}
-        <SubmitButton title={"category"} isLoading={isLoading} />
+        <SubmitButton
+          title={isUpdate ? "Update Category" : "New Category"}
+          isLoading={isLoading}
+        />
       </form>
       {/* footer */}
     </div>
