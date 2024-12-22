@@ -7,6 +7,7 @@ const UnitPage = async () => {
   const units = await getLatestData("units");
   const unitsTableData = units.map((obj) => {
     return {
+      id: obj.id,
       abbreviation: obj.title,
       unit: obj.unitName,
       createdAt: obj.createdAt,
@@ -20,7 +21,11 @@ const UnitPage = async () => {
 
       <div className="my-5 container mx-auto">
         {/* dataTable */}
-        <DataTable data={unitsTableData} columns={columns} />
+        <DataTable
+          data={unitsTableData}
+          columns={columns}
+          resourceTitle={"units"}
+        />
       </div>
     </div>
   );

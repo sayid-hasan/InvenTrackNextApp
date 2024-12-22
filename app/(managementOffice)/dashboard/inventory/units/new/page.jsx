@@ -9,25 +9,45 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import "react-toastify/dist/ReactToastify.css";
 
-import { makePostRequest } from "@/lib/makeApiPostRequest";
+import { makePostRequest, makePutRequest } from "@/lib/makeApiPostRequest";
+import { useRouter } from "next/navigation";
 
-const NewUnit = () => {
+const NewUnit = ({ initialData = {}, isUpdate = false }) => {
   const [isLoading, setIsLoading] = useState(false);
-
+  // redirect function after updating
+  const router = useRouter();
+  const redirect = () => {
+    return router.push("/dashboard/inventory/units");
+  };
   const {
     register,
     handleSubmit,
     watch,
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      unitTitle: initialData?.unitName,
+      unitAbbreviation: initialData?.title,
+    },
+  });
   const onSubmit = async (data) => {
     setIsLoading(true);
 
     // console.log(data);
 
-    // sending data to api endpoint with makeapiPostRequest
-    makePostRequest(setIsLoading, "api/units", data, `Units`, reset);
+    if (isUpdate) {
+      makePutRequest(
+        setIsLoading,
+        `api/units/${initialData?.id}`,
+        data,
+        `Unit`,
+        redirect
+      );
+    } else {
+      // sending data to api endpoint with makeapiPostRequest
+      makePostRequest(setIsLoading, "api/units", data, `Units`, reset);
+    }
   };
   useEffect(() => {
     const subscription = watch(() => {});
@@ -38,7 +58,10 @@ const NewUnit = () => {
   return (
     <div>
       {/* header */}
-      <FormHeader link={"/dashboard/inventory/units"} title={"New Unit"} />
+      <FormHeader
+        link={"/dashboard/inventory/units"}
+        title={isUpdate ? "Update Unit" : "New Unit"}
+      />
 
       {/* form */}
       <form
@@ -67,7 +90,10 @@ const NewUnit = () => {
         />
 
         {/* submit button */}
-        <SubmitButton title={"Unit"} isLoading={isLoading} />
+        <SubmitButton
+          title={isUpdate ? "Update Unit" : "New Unit"}
+          isLoading={isLoading}
+        />
       </form>
       {/* footer */}
     </div>
