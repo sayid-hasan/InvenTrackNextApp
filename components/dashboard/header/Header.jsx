@@ -15,26 +15,29 @@ import Image from "next/image";
 import React from "react";
 import { Tooltip } from "react-tooltip";
 
-const Header = () => {
+const Header = ({ showSidebar, setShowSidebar }) => {
   return (
-    <div className="bg-gray-50 text-slate-900 h-14 flex items-center justify-between px-5 border-b border-slate-200  shadow-sm">
+    <div className="bg-gray-50 text-slate-900 h-14 flex items-center justify-between px-5 border-b border-slate-200 w-full  shadow-sm">
       {/* segment */}
-      <div className="grow flex-1 flex ">
-        <button className="sm:hidden flex ">
-          {/* menu burger */}
-          <AlignJustify className="w-7 h-7" />
-        </button>
-        <div className="sm:flex hidden gap-3 items-center ">
+      <button
+        onClick={() => setShowSidebar(!showSidebar)}
+        className="lg:hidden flex grow "
+      >
+        {/* menu burger */}
+        <AlignJustify className="w-7 h-7" />
+      </button>
+      <div className="grow flex-1 flex items-center  ">
+        <div className=" flex gap-3 items-center ">
           {/* recent activity */}
           {/* recent history icon from lucide */}
-          <History className="w-7 h-7" />
+          <History className="w-7 h-7 lg:block hidden" />
 
           {/* Search Box */}
           <SearchInput></SearchInput>
         </div>
       </div>
       {/* 2nd segment */}
-      <div className="sm:flex hidden px-2  items-center gap-2">
+      <div className="lg:flex hidden px-2 grow justify-end  items-center gap-2">
         {/* plus button */}
         <div className="flex px-2 border-r border-r-gray-300">
           {/* <!-- Show tooltip on bottom --> */}
@@ -80,9 +83,9 @@ const Header = () => {
         {/*  */}
       </div>
       {/* 3rd sections */}
-      <div className="flex gap-6">
+      <div className="flex gap-6 grow justify-end">
         {/* Garat name of organization */}
-        <button className="sm:flex-row-reverse hidden text-slate-900  items-center gap-1">
+        <button className="lg:flex-row-reverse hidden text-slate-900  items-center gap-1">
           <span>Garat</span>
           <ChevronDown className="text-xs" />
         </button>
@@ -93,14 +96,14 @@ const Header = () => {
           <Image
             width={96}
             height={96}
-            className="rounded-full w-8 h-8 border border-slate-800 "
+            className="rounded-full w-8 h-8 border border-slate-800  "
             alt="user image"
             src="/user.png"
           />
         </button>
 
         {/* grid button */}
-        <button className="sm:block hidden">
+        <button className="lg:block hidden">
           <LayoutGrid className="w-6 h-6 text-slate-900 " />
         </button>
       </div>

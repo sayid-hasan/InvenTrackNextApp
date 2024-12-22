@@ -14,15 +14,17 @@ const AdjustmentsPage = async () => {
   });
   const columns = ["itemName", "createdAt", "itemSku"];
   return (
-    <div className="my-5 container mx-auto">
+    <div className=" mx-auto">
       {/* header */}
       <FixedHeader
         title={"Adjustment"}
         newLink="/dashboard/inventory/adjustments/new"
       />
-
-      {/* dataTable */}
-      <DataTable data={adjustmentsTableData} columns={columns} />
+      <div className="my-5 container mx-auto">
+        {" "}
+        {/* dataTable */}
+        <DataTable data={adjustmentsTableData} columns={columns} />
+      </div>
     </div>
   );
 };

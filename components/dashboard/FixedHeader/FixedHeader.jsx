@@ -12,9 +12,11 @@ import { Tooltip } from "react-tooltip";
 
 const FixedHeader = ({ newLink, title }) => {
   return (
-    <div className="flex justify-between items-center bg-white px-4 py-5">
+    <div className="flex justify-between my-5 w-full items-center bg-white px-4 py-5">
       {/* right part dropdown btn */}
-      <button className="text-2xl font-medium">{title}</button>
+      <button className=" text-lg  md:text-xl lg:text-2xl font-medium">
+        {title}
+      </button>
       {/* left part */}
 
       <div className="flex gap-1">
@@ -36,7 +38,7 @@ const FixedHeader = ({ newLink, title }) => {
           </Link>
         </div>
         {/* layout btns*/}
-        <div className="  rounded-md  flex items-center justify-center">
+        <div className=" sm:flex hidden  rounded-md   items-center justify-center">
           {/* list */}
           <button className="bg-gray-300 p-2 border-r border-gray-400 rounded-l-md">
             <List className="w-5 h-5" />

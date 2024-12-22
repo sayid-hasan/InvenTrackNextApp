@@ -13,15 +13,17 @@ const Categories = async () => {
   });
   const columns = ["title", "description"];
   return (
-    <div className="my-5 container mx-auto">
+    <div className="mx-auto">
       {/* header */}
       <FixedHeader
         title={"Categories"}
         newLink="/dashboard/inventory/categories/new"
       />
 
-      {/* dataTable */}
-      <DataTable data={categoryTableData} columns={columns} />
+      <div className="my-5 container mx-auto">
+        {/* dataTable */}
+        <DataTable data={categoryTableData} columns={columns} />
+      </div>
     </div>
   );
 };

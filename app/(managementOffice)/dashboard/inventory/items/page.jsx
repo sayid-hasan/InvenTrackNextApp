@@ -14,12 +14,13 @@ const Brands = async () => {
   });
   const columns = ["title", "sellingPrice", "createdAt"];
   return (
-    <div className="my-5 container mx-auto">
+    <div className="mx-auto">
       {/* header */}
       <FixedHeader title={"Items"} newLink="/dashboard/inventory/items/new" />
-
-      {/* dataTable */}
-      <DataTable data={itemsTableData} columns={columns} />
+      <div className="my-5 container mx-auto">
+        {/* dataTable */}
+        <DataTable data={itemsTableData} columns={columns} />
+      </div>
     </div>
   );
 };

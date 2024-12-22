@@ -14,15 +14,17 @@ const WareHousePage = async () => {
   });
   const columns = ["name", "location", "type"];
   return (
-    <div className="my-5 container mx-auto">
+    <div className=" mx-auto">
       {/* header */}
       <FixedHeader
         title={"Warehouse"}
         newLink="/dashboard/inventory/warehouse/new"
       />
 
-      {/* dataTable */}
-      <DataTable data={warehousesTableData} columns={columns} />
+      <div className="my-5 container mx-auto">
+        {/* dataTable */}
+        <DataTable data={warehousesTableData} columns={columns} />
+      </div>
     </div>
   );
 };

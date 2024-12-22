@@ -14,6 +14,7 @@ const SidebarDropdownLinks = ({
   linkItems,
   icon,
   accordianTriggerLink = "/dashboard",
+  setShowSidebar,
 }) => {
   return (
     <Accordion type="single" collapsible>
@@ -31,7 +32,13 @@ const SidebarDropdownLinks = ({
         </AccordionTrigger>
         <AccordionContent className="pl-6">
           {linkItems.map((links, index) => {
-            return <CollapsibleLink key={index} links={links} />;
+            return (
+              <CollapsibleLink
+                setShowSidebar={setShowSidebar}
+                key={index}
+                links={links}
+              />
+            );
           })}
         </AccordionContent>
       </AccordionItem>

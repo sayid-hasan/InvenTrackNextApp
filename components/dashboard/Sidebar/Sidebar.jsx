@@ -9,6 +9,7 @@ import {
   ShoppingBag,
   ShoppingCart,
   Store,
+  X,
 } from "lucide-react";
 import Link from "next/link";
 import React from "react";
@@ -17,7 +18,7 @@ import SubscriptionCard from "../SubscriptionCard/SubscriptionCard";
 import SidebarDropdownLinks from "../SidebarDropdownLinks/SidebarDropdownLinks";
 import { ToastContainer } from "react-toastify";
 
-const Sidebar = () => {
+const Sidebar = ({ showSidebar, setShowSidebar }) => {
   const inventoryLinks = [
     {
       title: "Items",
@@ -91,17 +92,33 @@ const Sidebar = () => {
     },
   ];
   return (
-    <div className="w-60 sm:flex hidden max-h-screen  flex-col justify-between bg-slate-800 text-slate-50 fixed overflow-y-auto overflow-hidden ">
+    <div
+      className={`${
+        showSidebar ? "" : "hidden"
+      } w-60 lg:flex z-50 max-h-screen  flex-col justify-between bg-slate-800 text-slate-50 fixed overflow-y-auto overflow-hidden 
+ transition duration-1000`}
+    >
       {/* top */}
       <div className="flex flex-col">
         {/* logo */}
-        <Link
-          href=""
-          className="flex gap-2 items-center bg-slate-900 px-4 py-3 "
-        >
-          <Store />
-          <span className="font-bold text-xl">InvenTrack</span>
-        </Link>
+        <div className="flex justify-between   bg-slate-900 items-center">
+          {" "}
+          <Link
+            href=""
+            className="flex gap-2 items-center bg-slate-900 px-4 py-3 "
+          >
+            <Store />
+            <span className="font-bold text-xl">InvenTrack</span>
+          </Link>
+          {/* close btn */}
+          <button
+            onClick={() => setShowSidebar(false)}
+            className="flex gap-2 lg:hidden items-center bg-slate-900 px-4 py-3"
+          >
+            {" "}
+            <X />
+          </button>
+        </div>
         {/* links */}
         <nav
           className="flex flex-col  gap-4 py-3 px-4
@@ -120,6 +137,7 @@ const Sidebar = () => {
 
           {/* collapsible inventory SidebarDropdownLinks from component */}
           <SidebarDropdownLinks
+            setShowSidebar={setShowSidebar}
             name={"Inventory"}
             linkItems={inventoryLinks}
             icon={<Scroll className="w-4 h-4" />}
@@ -171,7 +189,10 @@ const Sidebar = () => {
       {/*bottom */}
       <div className="flex  flex-col mt-5">
         {/* logo */}
-        <button className="flex group justify-end items-center bg-slate-900 px-4 py-2 ">
+        <button
+          onClick={() => setShowSidebar(false)}
+          className="flex group justify-end items-center bg-slate-900 px-4 py-2 "
+        >
           <ChevronLeft className="group-hover:-translate-x-14 group-hover:scale-110 transition-transform duration-300" />
         </button>
       </div>

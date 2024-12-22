@@ -2,9 +2,10 @@ import { PlusCircle } from "lucide-react";
 import Link from "next/link";
 import React from "react";
 
-const CollapsibleLink = ({ links }) => {
+const CollapsibleLink = ({ links, setShowSidebar }) => {
   return (
     <Link
+      onClick={() => setShowSidebar(false)}
       className="flex justify-between items-center px-3 hover:bg-slate-900 transition-all duration-200 py-2.5 rounded-md space-x-3"
       href={links?.link}
     >

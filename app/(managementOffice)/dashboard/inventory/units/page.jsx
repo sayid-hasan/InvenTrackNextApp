@@ -14,12 +14,14 @@ const UnitPage = async () => {
   });
   const columns = ["abbreviation", "unit", "createdAt"];
   return (
-    <div className="my-5 container mx-auto">
+    <div className="mx-auto">
       {/* header */}
       <FixedHeader title={"Units"} newLink="/dashboard/inventory/units/new" />
 
-      {/* dataTable */}
-      <DataTable data={unitsTableData} columns={columns} />
+      <div className="my-5 container mx-auto">
+        {/* dataTable */}
+        <DataTable data={unitsTableData} columns={columns} />
+      </div>
     </div>
   );
 };
