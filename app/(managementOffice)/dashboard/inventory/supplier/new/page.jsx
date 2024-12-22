@@ -5,21 +5,38 @@ import TextareaInput from "@/components/dashboard/FormElement/TextArea/TextArea"
 
 import TextInput from "@/components/dashboard/FormElement/TextInput/TextInput";
 import FormHeader from "@/components/dashboard/FormHeader/FormHeader";
-import { makePostRequest } from "@/lib/makeApiPostRequest";
+import { makePostRequest, makePutRequest } from "@/lib/makeApiPostRequest";
+import { useRouter } from "next/navigation";
 
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-const NewSupplier = () => {
+const NewSupplier = ({ initialData = {}, isUpdate = false }) => {
   const [isLoading, setIsLoading] = useState(false);
-
+  // redirect function after updating
+  const router = useRouter();
+  const redirect = () => {
+    return router.push("/dashboard/inventory/supplier");
+  };
   const {
     register,
     handleSubmit,
     watch,
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      supplierName: initialData?.title,
+      phone: initialData?.phone,
+      email: initialData?.email,
+      address: initialData?.address,
+      contactPerson: initialData?.contactPerson,
+      supplierCode: initialData?.supplierCode,
+      paymentTerms: initialData?.paymentTerms,
+      taxID: initialData?.taxID,
+      notes: initialData?.notes,
+    },
+  });
   const onSubmit = async (data) => {
     setIsLoading(true);
     // const {
@@ -45,8 +62,18 @@ const NewSupplier = () => {
     //   taxID,
     //   notes,
     // };
-    // sending data to api endpoint with makeapiPostRequest
-    makePostRequest(setIsLoading, "api/supplier", data, `Supplier`, reset);
+    if (isUpdate) {
+      makePutRequest(
+        setIsLoading,
+        `api/supplier/${initialData?.id}`,
+        data,
+        `Supplier`,
+        redirect
+      );
+    } else {
+      // sending data to api endpoint with makeapiPostRequest
+      makePostRequest(setIsLoading, "api/supplier", data, `Supplier`, reset);
+    }
   };
   useEffect(() => {
     const subscription = watch(() => {});
@@ -59,7 +86,7 @@ const NewSupplier = () => {
       {/* header */}
       <FormHeader
         link={"/dashboard/inventory/supplier"}
-        title={"New Supplier"}
+        title={isUpdate ? "Update Supplier" : "New Supplier"}
       />
 
       {/* form */}
@@ -165,7 +192,10 @@ const NewSupplier = () => {
         />
 
         {/* submit button */}
-        <SubmitButton title={"Brand"} isLoading={isLoading} />
+        <SubmitButton
+          title={isUpdate ? "Update Supplier" : "New Supplier"}
+          isLoading={isLoading}
+        />
       </form>
       {/* footer */}
     </div>

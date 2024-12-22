@@ -7,6 +7,8 @@ const Suppliers = async () => {
   const suppliers = await getLatestData("supplier");
   const suppliersTableData = suppliers.map((obj) => {
     return {
+      id: obj.id,
+
       title: obj.title,
       phone: obj.phone,
       email: obj.email,
@@ -24,7 +26,11 @@ const Suppliers = async () => {
 
       <div className="my-5 container mx-auto">
         {/* dataTable */}
-        <DataTable data={suppliersTableData} columns={columns} />
+        <DataTable
+          data={suppliersTableData}
+          columns={columns}
+          resourceTitle="supplier"
+        />
       </div>
     </div>
   );
