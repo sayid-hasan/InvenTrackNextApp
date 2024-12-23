@@ -33,16 +33,15 @@ export async function POST(request) {
     if (updatedItemName) updatedItemData.itemName = updatedItemName;
     if (updatedItemDescription)
       updatedItemData.itemDescription = updatedItemDescription;
-    // if (updatedCategoryId) updatedItemData.categoryId = updatedCategoryId;
+
     if (updatedBarcode) updatedItemData.itemBarcode = updatedBarcode;
     if (updatedQty !== undefined) updatedItemData.qty = parseInt(updatedQty);
-    // if (updatedBrandId) updatedItemData.brandId = updatedBrandId;
-    // if (updatedUnitId) updatedItemData.unitId = updatedUnitId;
+
     if (updatedSellingPrice)
       updatedItemData.sellingPrice = parseFloat(updatedSellingPrice);
     if (updatedBuyingPrice)
       updatedItemData.buyingPrice = parseFloat(updatedBuyingPrice);
-    // if (updatedSupplierId) updatedItemData.supplierId = updatedSupplierId;
+
     if (updatedReOrderPoint !== undefined)
       updatedItemData.reOrderPoint = parseFloat(updatedReOrderPoint);
     if (updatedImageUrl) updatedItemData.imageUrl = updatedImageUrl;
@@ -52,8 +51,8 @@ export async function POST(request) {
     if (updatedTaxPercentage)
       updatedItemData.taxPercentage = parseFloat(updatedTaxPercentage);
     if (updatedItemNotes) updatedItemData.itemNotes = updatedItemNotes;
-    // if (updatedWarehouseId) updatedItemData.warehouseId = updatedWarehouseId;
-    console.log("adjustment data", updatedItemData);
+
+    console.log("adjustment update data", updatedItemData);
 
     // Update the item in the database
     const updatedItem = await db.item.update({

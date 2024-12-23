@@ -7,6 +7,7 @@ const AdjustmentsPage = async () => {
   const adjustments = await getLatestData("adjustments");
   const adjustmentsTableData = adjustments.map((obj) => {
     return {
+      id: obj.id,
       itemName: obj.updatedItemName,
       createdAt: obj.createdAt,
       itemSku: obj.referenceSku,
@@ -23,7 +24,11 @@ const AdjustmentsPage = async () => {
       <div className="my-5 container mx-auto">
         {" "}
         {/* dataTable */}
-        <DataTable data={adjustmentsTableData} columns={columns} />
+        <DataTable
+          data={adjustmentsTableData}
+          columns={columns}
+          resourceTitle="adjustments"
+        />
       </div>
     </div>
   );

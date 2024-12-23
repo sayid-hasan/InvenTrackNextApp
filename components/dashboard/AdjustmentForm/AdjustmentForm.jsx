@@ -1,31 +1,37 @@
 "use client";
 
-import { makePostRequest } from "@/lib/makeApiPostRequest";
+import { makePostRequest, makePutRequest } from "@/lib/makeApiPostRequest";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import SkuSelectOptions from "../FormElement/SkuSelectInput/SkuSelectInput";
 import TextInput from "../FormElement/TextInput/TextInput";
 import SelectOptions from "../FormElement/SelectOptions/SelectOptions";
-import TextareaInput from "../FormElement/TextArea/TextArea";
-import ImageInput from "../FormElement/ImageInput/ImageInput";
+
 import SubmitButton from "../FormElement/SubmitBtn/SubmitBtn";
 import { getLatestData } from "@/lib/getLatestData";
+import { useRouter } from "next/navigation";
 
 const AdjustmentForm = ({
   categoryOptions,
   brandOptions,
-  unitOptions,
+
   warehouseOptions,
   supplierOptions,
   skus,
+  initialData = {},
+  isUpdate = false,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
-  const [imageUrl, setImageUrl] = useState("");
-
   const [serverData, setServerData] = useState(null);
 
-  const [singleItemSku, setSingleItemSku] = useState("");
+  // redirect function after updating
+  const router = useRouter();
+  const redirect = () => {
+    return router.push("/dashboard/inventory/adjustments");
+  };
+
+  const [singleItemSku, setSingleItemSku] = useState(skus[0]?.itemSku);
 
   const [refreshSkuItem, setRefreshSkuItem] = useState(skus);
 
@@ -50,30 +56,26 @@ const AdjustmentForm = ({
           singleItemSku
         )}`
       );
-      const data = response.data;
+      const data = response?.data;
       console.log(data);
 
       setServerData(response.data);
       // Populate form with the fetched data
-      setValue("updatedItemDimension", data.itemDimension);
+
       setValue("updatedItemName", data.itemName);
       setValue("updatedBrandId", data?.brandId);
       setValue("updatedBuyingPrice", data.buyingPrice);
       setValue("updatedSellingPrice", data.sellingPrice);
       setValue("updatedCategoryId", data?.categoryId);
       setValue("updatedBarcode", data.itemBarcode);
-      setValue("updatedItemDescription", data.itemDescription);
-      setValue("updatedItemName", data.itemName);
-      setValue("updatedItemNotes", data.itemNotes);
+
       setValue("updatedQty", data.qty);
       setValue("updatedReOrderPoint", data.reOrderPoint);
 
       setValue("updatedSupplierId", data.supplierId);
       setValue("updatedUnitId", data.unitId);
       setValue("updatedWarehouseId", data.warehouseId);
-      setValue("updatedWeightGm", data.weightGm);
 
-      setImageUrl(data.imageUrl);
       setValue("updatedTaxPercentage", data.taxPercentage);
     } catch (error) {
       console.error("Error fetching item data:", error);
@@ -88,28 +90,56 @@ const AdjustmentForm = ({
     reset,
     setValue,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      itemSku: initialData?.referenceSku,
+      adjustmentReason: initialData?.adjustmentReason,
+      updatedItemName: initialData?.updatedItemName,
+      updatedBrandId: initialData?.updatedBrandId,
+      updatedBuyingPrice: initialData?.updatedBuyingPrice,
+      updatedSellingPrice: initialData?.updatedSellingPrice,
+      updatedCategoryId: initialData?.updatedCategoryId,
+
+      updatedQty: initialData?.updatedQty,
+      updatedReOrderPoint: initialData?.updatedReOrderPoint,
+      updatedSupplierId: initialData?.updatedSupplierId,
+
+      updatedWarehouseId: initialData?.updatedWarehouseId,
+      updatedTaxPercentage: initialData?.updatedTaxPercentage,
+    },
+  });
 
   // onSubmit form
   const onSubmit = async (data) => {
     setIsLoading(true);
-    console.log(data);
-    // sending data to api endpoint
-    await makePostRequest(
-      setIsLoading,
-      "api/adjustments",
-      { ...data, updatedImageUrl: imageUrl },
-      `Adjustments`,
-      reset
-    );
-    setImageUrl("");
-    refreshSkus();
+    console.log("adjustment page", data);
+
+    if (isUpdate) {
+      makePutRequest(
+        setIsLoading,
+        `api/adjustments/${initialData?.id}`,
+        data,
+        `Adjustments`,
+        redirect
+      );
+    } else {
+      // sending data to api endpoint
+      await makePostRequest(
+        setIsLoading,
+        "api/adjustments",
+        data,
+        `Adjustments`,
+        reset
+      );
+
+      refreshSkus();
+    }
   };
 
   // item fetch data useEffect
 
   useEffect(() => {
-    fetchItemData(singleItemSku);
+    !isUpdate && fetchItemData(singleItemSku);
   }, [singleItemSku, setValue]);
 
   useEffect(() => {
@@ -117,7 +147,7 @@ const AdjustmentForm = ({
 
     // Cleanup when the component unmounts
     return () => subscription.unsubscribe();
-  }, [watch, imageUrl]);
+  }, [watch]);
 
   return (
     <div>
@@ -129,27 +159,29 @@ const AdjustmentForm = ({
         className="grid gap-4 sm:grid-cols-2 sm:gap-6 w-full max-w-4xl mx-auto p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700 my-4"
       >
         {/* item Name */}
-
         {/* Sku based data fetching*/}
-        <SkuSelectOptions
-          label="Select Item that need to update"
-          name={"itemSku"}
-          options={refreshSkuItem}
-          register={register}
-          className="w-full"
-          setSingleItemSku={setSingleItemSku}
-        />
-
+        {!isUpdate && (
+          <SkuSelectOptions
+            label="Select Item that need to update"
+            name={"itemSku"}
+            options={refreshSkuItem}
+            register={register}
+            className="w-full"
+            setSingleItemSku={setSingleItemSku}
+          />
+        )}
         {/* Barcode */}
-        <TextInput
-          label={"Update Item Barcode"} //Barcode optional.. will be auto generated
-          name={"updatedBarcode"}
-          register={register}
-          isRequired={false}
-          type="text"
-          errors={errors}
-          className="w-full"
-        />
+        {!isUpdate && (
+          <TextInput
+            label={"Update Item Barcode"} //Barcode optional.. will be auto generated
+            name={"updatedBarcode"}
+            register={register}
+            isRequired={false}
+            type="text"
+            errors={errors}
+            className="w-full"
+          />
+        )}
         {/* item Name */}
         <TextInput
           label={"Update Item Name"} //
@@ -179,15 +211,7 @@ const AdjustmentForm = ({
           register={register}
           className="w-full"
         />
-        {/* Unit */}
-        <SelectOptions
-          label="Select Unit"
-          name={"updatedUnitId"}
-          value={watch("updatedUnitId")}
-          options={unitOptions}
-          register={register}
-          className="w-full"
-        />
+
         {/* Brands */}
         <SelectOptions
           label="Select Brand"
@@ -197,7 +221,6 @@ const AdjustmentForm = ({
           register={register}
           className="w-full"
         />
-
         {/* Supplier Name */}
         <SelectOptions
           label="Select Suppliers"
@@ -216,7 +239,6 @@ const AdjustmentForm = ({
           register={register}
           className="w-full"
         />
-
         {/* buying Price per unit */}
         <TextInput
           label={"Update Buying Price"}
@@ -241,7 +263,6 @@ const AdjustmentForm = ({
           className="w-full"
           errors={errors}
         />
-
         {/* Reorder Point */}
         <TextInput
           label={"Update Re-Order Point"}
@@ -252,18 +273,6 @@ const AdjustmentForm = ({
           className="w-full"
           errors={errors}
         />
-
-        {/* weight */}
-        <TextInput
-          label={"Update Weight(gm)"}
-          name={"updatedWeightGm"}
-          register={register}
-          isRequired={false}
-          type="text"
-          className="w-full"
-          errors={errors}
-        />
-
         {/* adjusment reason */}
         <TextInput
           label={"Reason of adjustment"}
@@ -273,43 +282,6 @@ const AdjustmentForm = ({
           className="w-full"
           errors={errors}
         />
-
-        {/* Dimensions */}
-        <TextInput
-          label={"Update Dimensions"}
-          name={"updatedItemDimension"}
-          isRequired={false}
-          register={register}
-          type="text"
-          className="w-full"
-          errors={errors}
-        />
-
-        {/* description */}
-        <TextareaInput
-          label={"Update Item Description"}
-          name={"updatedItemDescription"}
-          register={register}
-          isRequired={false}
-          errors={errors}
-        />
-        {/* extra Notes */}
-        <TextareaInput
-          label={"Update item Notes"}
-          name={"updatedItemNotes"}
-          isRequired={false}
-          register={register}
-          errors={errors}
-        />
-
-        {/* image upload component */}
-        <ImageInput
-          label="Update Item Image"
-          imageUrl={imageUrl}
-          setImageUrl={setImageUrl}
-          className="w-full"
-        />
-
         {/* tax rate */}
         <TextInput
           label={"Tax Percentage"}
@@ -322,9 +294,11 @@ const AdjustmentForm = ({
           className="w-full leading-[1]"
           errors={errors}
         />
-
         {/* submit button */}
-        <SubmitButton title={"Update Item"} isLoading={isLoading} />
+        <SubmitButton
+          title={isUpdate ? "Update Adjustment" : "New Adjustment"}
+          isLoading={isLoading}
+        />
       </form>
       {/* footer */}
     </div>
