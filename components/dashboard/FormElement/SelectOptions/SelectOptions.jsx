@@ -3,7 +3,7 @@ import React from "react";
 export default function SelectOptions({
   label,
   name,
-  value = "",
+
   register,
   className = "sm:col-span-2",
   options = [],
@@ -20,7 +20,6 @@ export default function SelectOptions({
         <select
           {...register(`${name}`)}
           id={name}
-          value={value}
           name={name}
           className="block w-full rounded-md border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xl sm:text-sm sm:leading-6"
         >

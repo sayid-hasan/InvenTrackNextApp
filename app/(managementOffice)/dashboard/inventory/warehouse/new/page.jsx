@@ -10,10 +10,16 @@ import FormHeader from "@/components/dashboard/FormHeader/FormHeader";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-import { makePostRequest } from "@/lib/makeApiPostRequest";
+import { makePostRequest, makePutRequest } from "@/lib/makeApiPostRequest";
+import { useRouter } from "next/navigation";
 
-const NewWarehouse = () => {
+const NewWarehouse = ({ initialData = {}, isUpdate = false }) => {
   const [isLoading, setIsLoading] = useState(false);
+  // redirect function after updating
+  const router = useRouter();
+  const redirect = () => {
+    return router.push("/dashboard/inventory/warehouse");
+  };
   // warehouse type options
   const warehouseTypeOptions = [
     { id: "main", title: "Main" },
@@ -34,12 +40,29 @@ const NewWarehouse = () => {
     watch,
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      warehouseTitle: initialData?.title,
+      warehouseDescription: initialData?.warehouseDescription,
+      warehouseType: initialData?.warehouseType,
+      warehouseLocation: initialData?.warehouseLocation,
+    },
+  });
   const onSubmit = async (data) => {
     setIsLoading(true);
 
-    // sending data to api endpoint with makeapiPostRequest
-    makePostRequest(setIsLoading, "api/warehouse", data, `Warehouse`, reset);
+    if (isUpdate) {
+      makePutRequest(
+        setIsLoading,
+        `api/warehouse/${initialData?.id}`,
+        data,
+        `Warehouse`,
+        redirect
+      );
+    } else {
+      // sending data to api endpoint with makeapiPostRequest
+      makePostRequest(setIsLoading, "api/warehouse", data, `Warehouse`, reset);
+    }
   };
   useEffect(() => {
     const subscription = watch(() => {});
@@ -52,7 +75,7 @@ const NewWarehouse = () => {
       {/* header */}
       <FormHeader
         link={"/dashboard/inventory/warehouse"}
-        title={"New Warehouse"}
+        title={isUpdate ? "Update Warehouse" : "New Warehouse"}
       />
 
       {/* form */}
@@ -100,7 +123,10 @@ const NewWarehouse = () => {
         />
 
         {/* submit button */}
-        <SubmitButton title={"Warehouse"} isLoading={isLoading} />
+        <SubmitButton
+          title={isUpdate ? "Update Warehouse" : "New Warehouse"}
+          isLoading={isLoading}
+        />
       </form>
       {/* footer */}
     </div>

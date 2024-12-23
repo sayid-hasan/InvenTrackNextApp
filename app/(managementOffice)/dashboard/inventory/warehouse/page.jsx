@@ -7,6 +7,7 @@ const WareHousePage = async () => {
   const warehouses = await getLatestData("warehouse");
   const warehousesTableData = warehouses.map((obj) => {
     return {
+      id: obj?.id,
       name: obj.title,
       location: obj.warehouseLocation,
       type: obj.warehouseType,
@@ -23,7 +24,11 @@ const WareHousePage = async () => {
 
       <div className="my-5 container mx-auto">
         {/* dataTable */}
-        <DataTable data={warehousesTableData} columns={columns} />
+        <DataTable
+          data={warehousesTableData}
+          columns={columns}
+          resourceTitle="warehouse"
+        />
       </div>
     </div>
   );
