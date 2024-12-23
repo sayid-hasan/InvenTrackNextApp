@@ -14,23 +14,23 @@ export async function GET(req, { params }) {
     }
 
     // Query the brand using Prisma
-    const unit = await db.unit.findUnique({
+    const item = await db.item.findUnique({
       where: {
         id, // Prisma maps MongoDB's `_id` to `id`
       },
     });
 
-    if (!unit) {
-      return NextResponse.json({ message: "Unit not found" }, { status: 404 });
+    if (!item) {
+      return NextResponse.json({ message: "Item not found" }, { status: 404 });
     }
 
-    return NextResponse.json(unit);
+    return NextResponse.json(item);
   } catch (error) {
     console.error(error.message);
     return NextResponse.json(
       {
         error: error.message,
-        message: "Failed to fetch unit details",
+        message: "Failed to fetch item details",
       },
       {
         status: 500,
@@ -41,7 +41,26 @@ export async function GET(req, { params }) {
 export async function PUT(req, { params }) {
   try {
     const { id } = await params;
-    const { unitTitle, unitAbbreviation } = await req.json();
+    const {
+      ItemDimension,
+      brandId,
+      buyingPrice,
+      categoryId,
+      itemBarcode,
+      itemDescription,
+      itemName,
+      itemNotes,
+      itemSku,
+      qty,
+      reOrderPoint,
+      sellingPrice,
+      supplierId,
+      unitId,
+      warehouseId,
+      weightGm,
+      imageUrl,
+      taxPercentage,
+    } = await req.json();
 
     if (!id) {
       return NextResponse.json(
@@ -51,23 +70,39 @@ export async function PUT(req, { params }) {
     }
 
     // Query the brand using Prisma
-    const unit = await db.unit.update({
+    const item = await db.item.update({
       where: {
         id, // Prisma maps MongoDB's `_id` to `id`
       },
       data: {
-        unitName: unitTitle,
-        title: unitAbbreviation,
+        itemDimension: ItemDimension,
+        brandId,
+        buyingPrice: parseFloat(buyingPrice),
+        categoryId,
+        itemBarcode: itemBarcode,
+        itemDescription: itemDescription,
+        itemName,
+        itemNotes: itemNotes,
+        itemSku,
+        qty: parseInt(qty),
+        reOrderPoint: parseInt(reOrderPoint),
+        sellingPrice: parseFloat(sellingPrice),
+        supplierId,
+        unitId,
+        warehouseId,
+        weightGm: parseFloat(weightGm),
+        imageUrl: imageUrl,
+        taxPercentage: parseFloat(taxPercentage),
       },
     });
 
-    if (!unit) {
-      return NextResponse.json({ message: "Brand not found" }, { status: 404 });
+    if (!item) {
+      return NextResponse.json({ message: "Item not found" }, { status: 404 });
     }
 
     return NextResponse.json(
       {
-        data: unit,
+        data: item,
         message: "updated successfully",
       },
       {
@@ -79,7 +114,7 @@ export async function PUT(req, { params }) {
     return NextResponse.json(
       {
         error: error.message,
-        message: "Failed to update unit details",
+        message: "Failed to update item details",
       },
       {
         status: 500,

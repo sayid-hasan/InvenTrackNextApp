@@ -11,16 +11,30 @@ import ImageInput from "../FormElement/ImageInput/ImageInput";
 import TextareaInput from "../FormElement/TextArea/TextArea";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
-import { makePostRequest } from "@/lib/makeApiPostRequest";
+import { makePostRequest, makePutRequest } from "@/lib/makeApiPostRequest";
+import { useRouter } from "next/navigation";
 const CreateItemForm = ({
   categories = [],
   units = [],
   brands = [],
   suppliers = [],
   warehouses = [],
+  initialData = {},
+  isUpdate = false,
 }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [imageUrl, setImageUrl] = useState("");
+  // redirect function after updating
+  const router = useRouter();
+  const redirect = () => {
+    return router.push("/dashboard/inventory/items");
+  };
+  // if it's update page then set image url in setImageUrl
+  useEffect(() => {
+    if (initialData?.imageUrl) {
+      setImageUrl(initialData?.imageUrl);
+    }
+  }, [initialData.imageUrl]);
 
   const {
     register,
@@ -28,22 +42,52 @@ const CreateItemForm = ({
     watch,
     reset,
     formState: { errors },
-  } = useForm();
+  } = useForm({
+    defaultValues: {
+      itemName: initialData?.itemName,
+      categoryId: initialData?.categoryId,
+      itemSku: initialData?.itemSku,
+      itemBarcode: initialData?.itemBarcode,
+      qty: initialData?.qty,
+      unitId: initialData?.unitId,
+      buyingPrice: initialData?.buyingPrice,
+      sellingPrice: initialData?.sellingPrice,
+      supplierId: initialData?.supplierId,
+      reOrderPoint: initialData?.reOrderPoint,
+      warehouseId: initialData?.warehouseId,
+      weightGm: initialData?.weightGm,
+      ItemDimension: initialData?.ItemDimension,
+      itemDescription: initialData?.itemDescription,
+      brandId: initialData?.brandId,
+      itemNotes: initialData?.itemNotes,
+      taxPercentage: initialData?.taxPercentage,
+    },
+  });
   const onSubmit = async (data) => {
     if (!imageUrl) {
       toast.error("please provide a image of product ");
       return;
     }
     setIsLoading(true);
-    // sending data to api endpoint with makeapiPostRequest
-    await makePostRequest(
-      setIsLoading,
-      "api/items",
-      { ...data, imageUrl },
-      `Item`,
-      reset
-    );
-    setImageUrl("");
+    if (isUpdate) {
+      makePutRequest(
+        setIsLoading,
+        `api/items/${initialData?.id}`,
+        data,
+        `Item`,
+        redirect
+      );
+    } else {
+      // sending data to api endpoint with makeapiPostRequest
+      await makePostRequest(
+        setIsLoading,
+        "api/items",
+        { ...data, imageUrl },
+        `Item`,
+        reset
+      );
+      setImageUrl("");
+    }
   };
   useEffect(() => {
     const subscription = watch(() => {});
@@ -226,7 +270,10 @@ const CreateItemForm = ({
           errors={errors}
         />
         {/* submit button */}
-        <SubmitButton title={"Item"} isLoading={isLoading} />
+        <SubmitButton
+          title={isUpdate ? "Update Item" : "New Item"}
+          isLoading={isLoading}
+        />
       </form>
       {/* footer */}
     </>

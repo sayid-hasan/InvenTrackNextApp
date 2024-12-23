@@ -62,7 +62,7 @@ export async function PUT(req, { params }) {
     });
 
     if (!unit) {
-      return NextResponse.json({ message: "Brand not found" }, { status: 404 });
+      return NextResponse.json({ message: "Unit not found" }, { status: 404 });
     }
 
     return NextResponse.json(
