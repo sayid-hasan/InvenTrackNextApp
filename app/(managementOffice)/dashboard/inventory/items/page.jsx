@@ -8,12 +8,21 @@ const Items = async () => {
   const itemsTableData = items.map((obj) => {
     return {
       id: obj.id,
+      imageUrl: obj.imageUrl,
+      category: obj.category,
       title: obj.itemName,
       createdAt: obj.createdAt,
       sellingPrice: obj.sellingPrice,
     };
   });
-  const columns = ["title", "sellingPrice", "createdAt"];
+  const columns = [
+    "imageUrl",
+    "title",
+    "sellingPrice",
+    "createdAt",
+
+    "category.title",
+  ];
   return (
     <div className="mx-auto">
       {/* header */}

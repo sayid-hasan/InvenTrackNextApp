@@ -76,6 +76,13 @@ export async function GET() {
       orderBy: {
         createdAt: "desc", // 'asc' for ascending, 'desc' for descending
       },
+      include: {
+        category: true, // Include the related `category` field
+        unit: true, // Include the related `unit` field
+        brand: true, // Include the related `brand` field
+        supplier: true, // Include the related `supplier` field
+        warehouse: true, // Include the related `warehouse` field
+      },
     });
     return NextResponse.json(items);
   } catch (error) {

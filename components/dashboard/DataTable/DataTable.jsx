@@ -1,7 +1,8 @@
 "use client";
-import { Pencil, Trash2 } from "lucide-react";
+import { Pencil } from "lucide-react";
 import Link from "next/link";
 import React from "react";
+import TableItemDeleteBtn from "../TableItemDeleteBtn/TableItemDeleteBtn";
 
 export default function DataTable({ data = [], columns = [], resourceTitle }) {
   return (
@@ -28,14 +29,14 @@ export default function DataTable({ data = [], columns = [], resourceTitle }) {
                 key={i}
                 className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
               >
-                {columns.map((columnName, i) => {
+                {/* {columns.map((columnName, i) => {
                   return (
                     <td key={i} className="px-6 py-4">
                       {item[columnName]}
                     </td>
                   );
-                })}
-                {/* {columns.map((columnName, i) => (
+                })} */}
+                {columns.map((columnName, i) => (
                   <td key={i} className="px-6 py-4">
                     {columnName.includes(".") ? (
                       // If the column name contains a dot, it's a nested object
@@ -57,8 +58,7 @@ export default function DataTable({ data = [], columns = [], resourceTitle }) {
                       item[columnName]
                     )}
                   </td>
-                ))} */}
-
+                ))}
                 <td className="px-6 py-4 text-right flex items-center space-x-4">
                   <Link
                     href={`/dashboard/inventory/${resourceTitle}/update/${item?.id}`}
@@ -67,10 +67,7 @@ export default function DataTable({ data = [], columns = [], resourceTitle }) {
                     <Pencil className="w-4 h-4" />
                     <span>Edit</span>
                   </Link>
-                  <button className="font-medium text-red-600 dark:text-blue-500 flex items-center space-x-1">
-                    <Trash2 className="w-4 h-4" />
-                    <span>Delete</span>
-                  </button>
+                  <TableItemDeleteBtn id={item?.id} endPoint={resourceTitle} />
                 </td>
               </tr>
             );
